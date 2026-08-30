@@ -1,7 +1,7 @@
 // Site-wide data: nav, links, install command. /site-build-nav extends this.
 export const site = {
   name: "Peira",
-  tagline: "The intent compiler for API testing",
+  tagline: "The AI-native API testing tool",
   installCommand: "npm install -g peira",
   github: "https://github.com/slowhama/peira",
   npm: "https://www.npmjs.com/package/peira",

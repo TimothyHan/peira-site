@@ -46,3 +46,16 @@ export const loopStages: readonly LoopStage[] = [
     actorLabel: "Deterministic",
   },
 ] as const;
+
+// The paradigm shift — what "AI-native" changes about API testing.
+export interface ParadigmRow {
+  before: string;
+  after: string;
+}
+
+export const paradigm: readonly ParadigmRow[] = [
+  { before: "Humans hand-write test code", after: "Humans write intent — plain markdown, one promise per section" },
+  { before: "Test code silently drifts from the spec", after: "Cases carry lineage; stale ones are flagged and recompiled" },
+  { before: "Sleeps, retries, and flaky green", after: "Seeded, deterministic verdicts — any failure replays exactly" },
+  { before: "A red build is a chore to diagnose", after: "Failures come back triaged — bug | drift | flake — with evidence" },
+] as const;

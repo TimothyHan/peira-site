@@ -21,9 +21,9 @@ const mono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Peira — the intent compiler for API testing",
+  title: "Peira — AI-native API testing",
   description:
-    "Peira compiles a human-written test plan into deterministic API tests. The LLM works at authoring time, never at runtime — every verdict traces back to a sentence a person wrote.",
+    "Peira is the AI-native API testing tool: you own a markdown test plan, AI compiles it into deterministic tests, and the runner executes with zero LLM — every verdict traces back to a sentence a person wrote.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

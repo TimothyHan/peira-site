@@ -131,3 +131,78 @@ export const caseAnatomy = {
     { key: "teardown.drain", note: "Declares that this case must clean up; the bed's drain probe knows how. The runner polls every captured job to a terminal state before the next case runs." },
   ] as readonly AnatomyNote[],
 } as const;
+
+// "Using Peira through your agent" — Peira is agent-native by design: the
+// authoring surfaces already run on the author's own Claude session, and the
+// deterministic runner is what makes agent-driven testing trustworthy.
+export interface AgentExchange {
+  speaker: "you" | "agent";
+  text: string;
+  runs?: readonly string[];
+}
+
+export const agentLoop: readonly AgentExchange[] = [
+  {
+    speaker: "you",
+    text: "Add coverage: cancelling an order that already shipped must be refused.",
+  },
+  {
+    speaker: "agent",
+    text: "Added a tagged section to intent/orders.md, compiled just that section, and ran the suite:",
+    runs: [
+      "peira compile intent --out cases --bed bed.json --section order-cancel-shipped",
+      "peira run cases --bed bed.json --evidence run.jsonl",
+    ],
+  },
+  {
+    speaker: "agent",
+    text: "1 failure — the service answers 200 where the intent requires 409. Triage proposes BUG with the request/response evidence attached. Here's the report; do we file it, or should the intent change?",
+    runs: [
+      "peira triage --evidence run.jsonl --intent intent",
+      "peira render cases --intent intent --evidence run.jsonl --format html --out report.html",
+    ],
+  },
+  {
+    speaker: "you",
+    text: "That's a bug. File it and record the run.",
+  },
+  {
+    speaker: "agent",
+    text: "Filed. Run recorded in the evidence ledger — the section logged applied (it did its job catching the violation).",
+    runs: ["peira evidence --evidence run.jsonl --triage run-triage.json --intent intent"],
+  },
+] as const;
+
+export const agentClaudeMd = `# CLAUDE.md — API testing with Peira
+
+- Tests are compiled from intent/*.md. NEVER edit cases/*.json by hand —
+  edit the intent section, then recompile exactly that section:
+    peira compile intent --out cases --bed bed.json --section <id>
+- Run and keep the evidence (note the printed seed for exact replays):
+    peira run cases --bed bed.json --evidence run.jsonl
+- On failures, triage and PRESENT the proposals — adjudication belongs
+  to the human, never to you:
+    peira triage --evidence run.jsonl --intent intent
+- When the human wants to see results, render the visual report:
+    peira render cases --intent intent --evidence run.jsonl --format html --out report.html
+- After adjudication, record the run so intent sections earn trust:
+    peira evidence --evidence run.jsonl --triage run-triage.json --intent intent`;
+
+export const agentGuarantees: readonly { title: string; body: string }[] = [
+  {
+    title: "The runner can't be sweet-talked",
+    body: "Verdicts are deterministic — a function of (cases, seed, service state). Zero LLM at runtime means an agent cannot wiggle a red run green; it can only fix the service or propose an intent change you approve.",
+  },
+  {
+    title: "The gate refuses, it never patches",
+    body: "Everything a model emits — compiled cases, triage proposals, adopted intent — passes a deterministic schema gate. Malformed output is refused with reasons, never silently corrected.",
+  },
+  {
+    title: "Nothing self-applies",
+    body: "Triage proposes bug | drift | flake; the human adjudicates. Intent is yours; cases are regenerable artifacts; the evidence ledger records what was decided, with the reason quoted verbatim.",
+  },
+  {
+    title: "It runs on your session",
+    body: "compile, triage, and adopt shell out to your own logged-in Claude Code CLI — the same session your agent lives in. No API key to provision, nothing extra to secure.",
+  },
+] as const;

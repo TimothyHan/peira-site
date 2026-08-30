@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { gettingStarted, cliCommands, caseAnatomy } from "@/data/docs";
+import { gettingStarted, cliCommands, caseAnatomy, agentLoop, agentClaudeMd, agentGuarantees } from "@/data/docs";
 import { InstallCommand } from "@/components/ui/install-command";
 import { hero } from "@/data/hero";
 
@@ -34,6 +34,7 @@ export default function DocsPage() {
           <a href="#getting-started" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">getting-started</a>
           <a href="#cli" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">cli-reference</a>
           <a href="#anatomy" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">case-anatomy</a>
+          <a href="#agents" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">with-your-agent</a>
         </nav>
       </div>
 
@@ -117,6 +118,65 @@ export default function DocsPage() {
           Cases are regenerable artifacts — never hand-patch one into divergence. Change the
           intent, recompile the section, review the diff. That is the whole discipline.
         </p>
+      </section>
+
+      {/* using peira through your agent */}
+      <section id="agents" className="pt-16">
+        <h2 className="text-2xl md:text-3xl">Using Peira through your agent</h2>
+        <p className="mt-3 text-sm leading-[1.8] text-foreground/75">
+          Peira is agent-native by design: the authoring surfaces already run on your own
+          Claude session, and the deterministic runner is exactly what makes agent-driven
+          testing trustworthy. In practice you talk to your agent in intent-language — it
+          edits the plan, compiles, runs, renders the report, and drafts triage for{" "}
+          <em>your</em> adjudication.
+        </p>
+
+        <h3 className="mt-8 text-lg font-semibold">The loop, as a conversation</h3>
+        <div className="mt-4 space-y-4 rounded border border-border bg-card p-5">
+          {agentLoop.map((turn, i) => (
+            <div key={i} className="grid gap-1 sm:grid-cols-[4rem_1fr] sm:gap-4">
+              <span
+                className={`font-mono text-[11px] font-semibold uppercase tracking-[0.12em] ${
+                  turn.speaker === "you" ? "text-foreground" : "text-pass"
+                }`}
+              >
+                {turn.speaker}
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm leading-relaxed text-foreground/75">{turn.text}</p>
+                {turn.runs && (
+                  <div className="mt-2 space-y-1 overflow-x-auto font-mono text-[11.5px] text-muted-foreground">
+                    {turn.runs.map((cmd) => (
+                      <div key={cmd} className="whitespace-nowrap">
+                        <span className="select-none text-pass">$ </span>
+                        {cmd}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <h3 className="mt-10 text-lg font-semibold">Drop-in agent instructions</h3>
+        <p className="mt-2 text-sm leading-[1.8] text-foreground/75">
+          Put this in your project&rsquo;s <code className="font-mono text-[13px]">CLAUDE.md</code>{" "}
+          (or your agent&rsquo;s equivalent) and the workflow above is what you get:
+        </p>
+        <div className="mt-4">
+          <CodeBlock code={agentClaudeMd} />
+        </div>
+
+        <h3 className="mt-10 text-lg font-semibold">Why this is safe to hand to an agent</h3>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {agentGuarantees.map((g) => (
+            <div key={g.title} className="rounded border border-border p-5">
+              <h4 className="text-sm font-semibold">{g.title}</h4>
+              <p className="mt-2 text-[13px] leading-relaxed text-foreground/75">{g.body}</p>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );

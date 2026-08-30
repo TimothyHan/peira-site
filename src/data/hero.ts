@@ -8,11 +8,11 @@ export interface TermLine {
 }
 
 export const hero = {
-  eyebrow: "run-start · intent compiler for functional api testing",
+  eyebrow: "run-start · ai-native api testing",
   headlineClaim: "Your test plan",
   headlineTested: "compiles.",
   headlineQuiet: "The runner never thinks.",
-  lede: "Peira compiles a human-written test plan into deterministic API tests. The LLM works at authoring time, never at runtime — and every verdict traces back to a sentence a person wrote and owns.",
+  lede: "API testing before AI meant hand-writing test code that rots. Peira is AI-native: you own a plain-markdown test plan, AI compiles it into deterministic tests, and the runner executes with zero LLM — every verdict traces back to a sentence a person wrote.",
   installCommand: "npm install -g peira",
   honesty: ["No API key", "No signup", "Zero LLM at runtime", "MIT"],
   secondaryCta: { label: "View on GitHub", href: "https://github.com/slowhama/peira" },

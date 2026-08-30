@@ -51,3 +51,12 @@ Read by: /design-system, /build-section, /build-page, /human-touch
 **Status:** DONE
 **Summary:** 5 patterns anchored (4 components + 1 cross-cutting, composition rejected by its own disqualifier); 3 alternates, 5 rejections recorded
 **Next steps:** /site-design-system reads this doc + direction.md for token decisions
+
+## Amendment (2026-08-29, user-directed branding)
+The brand now leads with **"AI-native API testing"** (tagline, hero eyebrow/lede, metadata,
+paradigm-contrast table in the loop section). This does NOT reinstate the rejected
+`ai-prominence-hero`: the 2026-wave "AI-powered" veneer stays rejected. The claim here is
+architectural — AI-native means the division of labor changed (humans own intent, AI compiles,
+runtime is zero-LLM) — and the hero's honesty line still carries "Zero LLM at runtime".
+/docs also gained a "with-your-agent" section: conversation loop, drop-in CLAUDE.md, and the
+four guarantees that make agent-driven use safe.

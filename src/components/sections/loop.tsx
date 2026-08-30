@@ -1,5 +1,5 @@
 import { ScrollAnimate } from "@/components/scroll-animate";
-import { loopStages, type Actor } from "@/data/loop";
+import { loopStages, paradigm, type Actor } from "@/data/loop";
 
 const ACTOR_CLASS: Record<Actor, string> = {
   human: "text-foreground",
@@ -19,9 +19,35 @@ export function LoopSection() {
             Five stages. <span className="headline-quiet">One thinks. Four prove.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Intent is the only source of truth. Everything downstream is a regenerable
-            artifact — schema-gated on the way in, evidence-logged on the way out.
+            AI-native testing is not old testing with a model bolted on — the division of
+            labor changes. Intent is the only source of truth; everything downstream is a
+            regenerable artifact, schema-gated on the way in, evidence-logged on the way out.
           </p>
+        </ScrollAnimate>
+
+        <ScrollAnimate delay={0.05}>
+          <div className="mt-10 overflow-hidden rounded border border-border">
+            <div className="grid grid-cols-1 sm:grid-cols-2">
+              <div className="border-b border-border p-4 sm:border-b-0 sm:border-r">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  api testing before ai
+                </span>
+              </div>
+              <div className="hidden p-4 sm:block">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-pass">
+                  ai-native
+                </span>
+              </div>
+            </div>
+            {paradigm.map((row) => (
+              <div key={row.before} className="grid grid-cols-1 border-t border-border sm:grid-cols-2">
+                <p className="border-b border-border p-4 text-sm leading-relaxed text-muted-foreground line-through decoration-border sm:border-b-0 sm:border-r">
+                  {row.before}
+                </p>
+                <p className="p-4 text-sm leading-relaxed text-foreground/85">{row.after}</p>
+              </div>
+            ))}
+          </div>
         </ScrollAnimate>
         <div className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
           {loopStages.map((stage, i) => (
