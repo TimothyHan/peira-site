@@ -16,9 +16,10 @@ export interface NavItem {
 }
 
 export const nav: NavItem[] = [
-  { label: "How it works", href: "#loop" },
-  { label: "Measured", href: "#measured" },
-  { label: "Evidence", href: "#evidence" },
+  { label: "How it works", href: "/#loop" },
+  { label: "Measured", href: "/#measured" },
+  { label: "Evidence", href: "/#evidence" },
+  { label: "Docs", href: "/docs" },
   { label: "GitHub", href: "https://github.com/slowhama/peira", external: true },
 ];
 

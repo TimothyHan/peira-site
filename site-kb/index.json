@@ -18,6 +18,10 @@
         "cta-close"
       ],
       "status": "sections-complete"
+    },
+    "docs": {
+      "status": "complete",
+      "pattern": "simple-content-dev-docs"
     }
   },
   "workflow": {
@@ -29,6 +33,7 @@
     "homepageSections": "complete",
     "navigation": "complete",
     "humanTouch": "complete",
-    "visualQA": "complete"
+    "visualQA": "complete",
+    "contentPages": "complete"
   }
 }
