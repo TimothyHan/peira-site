@@ -12,7 +12,7 @@ export const hero = {
   headlineClaim: "Your test plan",
   headlineTested: "compiles.",
   headlineQuiet: "The runner never thinks.",
-  lede: "API testing before AI meant hand-writing test code that requires constant maintenance. Peira is AI-native: you own a plain-markdown test plan, AI compiles it into deterministic tests, and the runner executes with zero LLM — every verdict traces back to a sentence a person wrote.",
+  lede: "You write the plan in markdown. AI compiles it into deterministic tests. Every verdict traces back to a sentence you wrote.",
   installCommand: "npm install -g peira",
   honesty: ["No API key", "No signup", "Zero LLM at runtime", "MIT"],
   secondaryCta: { label: "View on GitHub", href: "https://github.com/slowhama/peira" },
