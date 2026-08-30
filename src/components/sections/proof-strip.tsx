@@ -14,8 +14,8 @@ export function ProofStripSection() {
             Measured, <span className="headline-quiet">not promised.</span>
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            Peira&rsquo;s bed is a faithful re-implementation of a 2022 production test target,
-            plus its original 27-spec hand-written suite — an ancestor to compare against, honestly.
+            Peira&rsquo;s bed is a faithful re-implementation of a real production test target,
+            plus its original 27-spec hand-written suite — a baseline to compare against, honestly.
           </p>
         </ScrollAnimate>
         <div className="mt-14 grid grid-cols-1 border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3">

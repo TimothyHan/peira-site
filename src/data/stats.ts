@@ -17,13 +17,13 @@ export const stats: readonly Stat[] = [
   },
   {
     value: "27/27",
-    label: "2022 specs re-expressed",
-    detail: "the ancestor's hand-written suite, in five primitives — zero escape hatches, zero sleeps",
+    label: "legacy specs re-expressed",
+    detail: "a real service's hand-written suite, in five primitives — zero escape hatches, zero sleeps",
   },
   {
     value: "3",
     label: "divergences surfaced",
-    detail: "compiling the 2022 plan verbatim caught intent/implementation gaps — one never tested by anyone",
+    detail: "compiling its legacy test plan verbatim caught intent/implementation gaps — one never tested by anyone",
   },
   {
     value: "5/5",
@@ -36,7 +36,7 @@ export const stats: readonly Stat[] = [
     detail: "bug-vs-drift across 33 pre-registered behavior shifts; zero schema refusals or injections",
   },
   {
-    value: "215",
+    value: "231",
     label: "tests on the tool itself",
     detail: "run against the exact compiled artifact that ships — strict TypeScript throughout",
   },

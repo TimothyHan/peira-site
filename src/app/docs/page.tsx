@@ -100,8 +100,8 @@ export default function DocsPage() {
         <h2 className="text-2xl md:text-3xl">Anatomy of a case</h2>
         <p className="mt-3 text-sm leading-[1.8] text-foreground/75">
           A case is JSON: optional setup steps, one test step, optional teardown. Five
-          primitives cover what hand-written suites need — Peira&rsquo;s 2022 ancestor
-          re-expressed 27/27 specs with zero escape hatches.
+          primitives cover what hand-written suites need — a real legacy suite re-expressed
+          27/27 specs with zero escape hatches.
         </p>
         <div className="mt-6">
           <CodeBlock code={caseAnatomy.code} />
