@@ -38,7 +38,7 @@ export function Header() {
           className="flex cursor-pointer items-center gap-2.5 font-mono text-sm font-semibold tracking-widest outline-none ring-0 focus-visible:outline-2 focus-visible:outline-ring"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icon.svg" alt="" aria-hidden className="h-6 w-6 rounded-[5px]" />
+          <img src="/icon.svg" alt="" aria-hidden className="h-5 w-5 rounded-[4px]" />
           <span>
             PEIRA<span className="text-pass">(✓)</span>
           </span>
@@ -84,7 +84,7 @@ export function Header() {
             <div className="flex h-14 items-center justify-between border-b border-border px-4">
               <span className="flex items-center gap-2.5 font-mono text-sm font-semibold tracking-widest">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/icon.svg" alt="" aria-hidden className="h-6 w-6 rounded-[5px]" />
+                <img src="/icon.svg" alt="" aria-hidden className="h-5 w-5 rounded-[4px]" />
                 <span>
                   PEIRA<span className="text-pass">(✓)</span>
                 </span>
