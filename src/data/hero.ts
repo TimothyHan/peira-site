@@ -11,7 +11,7 @@ export const hero = {
   eyebrow: "run-start · ai-native api testing",
   headlineClaim: "Your test plan",
   headlineTested: "compiles.",
-  headlineQuiet: "The runner never thinks.",
+  headlineQuiet: "A deterministic runner executes it.",
   lede: "Intent compiler, deterministic runner, failure triage, and evidence ledger in a single CLI. Use peira compile and peira run against any REST API — the config can be one URL.", // rendered with inline /docs#cli links in hero.tsx
   installCommand: "npm install -g peira",
   honesty: ["No API key", "No signup", "Zero LLM at runtime", "MIT"],

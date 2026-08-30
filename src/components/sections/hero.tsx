@@ -17,7 +17,8 @@ export function HeroSection() {
             <h1 className="mt-5 text-5xl leading-[0.93] md:text-7xl xl:text-8xl">
               {hero.headlineClaim} <span className="text-pass">{hero.headlineTested}</span>
               <br />
-              <span className="headline-quiet">{hero.headlineQuiet}</span>
+              {/* consequence line, one tier down — the claim stays the pitch-carrier */}
+              <span className="headline-quiet block text-[0.62em] leading-[1.05]">{hero.headlineQuiet}</span>
             </h1>
           </ScrollAnimate>
           <ScrollAnimate delay={0.2}>
