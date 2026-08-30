@@ -14,7 +14,7 @@ export function HeroSection() {
             <p className="eyebrow">{hero.eyebrow}</p>
           </ScrollAnimate>
           <ScrollAnimate delay={0.1}>
-            <h1 className="mt-5 text-5xl leading-[0.93] md:text-7xl lg:text-8xl">
+            <h1 className="mt-5 text-5xl leading-[0.93] md:text-7xl xl:text-8xl">
               {hero.headlineClaim} <span className="text-pass">{hero.headlineTested}</span>
               <br />
               <span className="headline-quiet">{hero.headlineQuiet}</span>

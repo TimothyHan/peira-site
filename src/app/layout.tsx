@@ -31,8 +31,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en">
       <body className={`${heading.variable} ${body.variable} ${mono.variable} antialiased`}>
         <div className="site-theme flex min-h-screen flex-col">
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-card focus:px-4 focus:py-2 focus:text-sm focus:outline-2 focus:outline-ring"
+          >
+            Skip to content
+          </a>
           <Header />
-          <main className="flex-1 pt-14">{children}</main>
+          <main id="main" className="flex-1 pt-14">{children}</main>
           <Footer />
         </div>
       </body>
