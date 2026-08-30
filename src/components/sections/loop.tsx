@@ -1,14 +1,11 @@
 import { ScrollAnimate } from "@/components/scroll-animate";
-import { loopStages, paradigm, type Actor } from "@/data/loop";
+import { paradigm } from "@/data/loop";
+import { tally } from "@/data/walkthrough";
+import { WalkthroughStepper } from "./walkthrough-stepper";
 
-const ACTOR_CLASS: Record<Actor, string> = {
-  human: "text-foreground",
-  llm: "text-error",
-  deterministic: "text-pass",
-};
-
-// Section 3 · explain — process-step-timeline (adapted per patterns.md):
-// the compile loop as a numbered sequence; each stage carries its actor tag.
+// Section 3 · explain — process-step-timeline, made concrete: the five stages
+// (+ the maintenance revisit) shown as ONE promise's real artifacts at every
+// stage, framed by the effort tally and the before/after paradigm table.
 export function LoopSection() {
   return (
     <section id="loop" className="bg-background py-20 md:py-28 lg:py-32">
@@ -20,11 +17,46 @@ export function LoopSection() {
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
             AI-native testing is not old testing with a model bolted on — the division of
-            labor changes. Intent is the only source of truth; everything downstream is a
-            regenerable artifact, schema-gated on the way in, evidence-logged on the way out.
+            labor changes. Follow one promise through the whole loop, artifacts included.
           </p>
         </ScrollAnimate>
 
+        {/* what you write / what you get */}
+        <ScrollAnimate delay={0.05}>
+          <div className="mt-10 grid overflow-hidden rounded border border-border md:grid-cols-2">
+            <div className="border-b border-border p-6 md:border-b-0 md:border-r">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                {tally.writeLabel}
+              </p>
+              <pre className="mt-3 overflow-x-auto font-mono text-[12px] leading-relaxed text-foreground/85">
+                {tally.write}
+              </pre>
+              <p className="mt-3 text-[13px] italic text-muted-foreground">{tally.writeNote}</p>
+            </div>
+            <div className="p-6">
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-pass">
+                {tally.getLabel}
+              </p>
+              <ul className="mt-3 space-y-2.5">
+                {tally.gets.map((g) => (
+                  <li key={g} className="flex gap-2.5 text-sm leading-relaxed text-foreground/75">
+                    <span aria-hidden className="select-none font-mono text-pass">✓</span>
+                    {g}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </ScrollAnimate>
+
+        {/* follow one promise */}
+        <ScrollAnimate delay={0.1} direction="none">
+          <div className="mt-10">
+            <WalkthroughStepper />
+          </div>
+        </ScrollAnimate>
+
+        {/* the paradigm, generalized */}
         <ScrollAnimate delay={0.05}>
           <div className="mt-10 overflow-hidden rounded border border-border">
             <div className="grid grid-cols-1 sm:grid-cols-2">
@@ -49,24 +81,6 @@ export function LoopSection() {
             ))}
           </div>
         </ScrollAnimate>
-        <div className="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
-          {loopStages.map((stage, i) => (
-            <ScrollAnimate key={stage.num} delay={i * 0.07} className="h-full">
-              <div className="flex h-full flex-col gap-3 bg-background p-6">
-                <span className="font-mono text-xs font-semibold text-muted-foreground">
-                  {stage.num}
-                </span>
-                <h3 className="text-lg font-semibold">{stage.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{stage.body}</p>
-                <span
-                  className={`mt-auto pt-3 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] ${ACTOR_CLASS[stage.actor]}`}
-                >
-                  {stage.actorLabel}
-                </span>
-              </div>
-            </ScrollAnimate>
-          ))}
-        </div>
       </div>
     </section>
   );
