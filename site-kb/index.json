@@ -21,12 +21,13 @@
     }
   },
   "workflow": {
-    "phase": "navigation-complete",
+    "phase": "human-touch-complete",
     "designDirection": "complete",
     "patterns": "complete",
     "designSystem": "complete",
     "scaffold": "complete",
     "homepageSections": "complete",
-    "navigation": "complete"
+    "navigation": "complete",
+    "humanTouch": "complete"
   }
 }

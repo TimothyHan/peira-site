@@ -25,7 +25,11 @@ export function ProofStripSection() {
                 <p className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground">
                   {stat.label}
                 </p>
-                <p className="mt-3 text-5xl font-semibold tabular-nums tracking-tight">
+                <p
+                  className={`mt-3 font-semibold tabular-nums tracking-tight ${
+                    stat.featured ? "text-6xl text-pass md:text-7xl" : "text-5xl"
+                  }`}
+                >
                   {stat.value}
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{stat.detail}</p>

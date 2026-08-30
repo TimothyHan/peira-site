@@ -4,9 +4,17 @@ export interface Stat {
   value: string;
   label: string;
   detail: string;
+  /** the differentiator stat — rendered oversized in pass-green */
+  featured?: boolean;
 }
 
 export const stats: readonly Stat[] = [
+  {
+    value: "0",
+    label: "LLM calls at runtime",
+    detail: "CI needs no API key, no session — the exit code gates the merge",
+    featured: true,
+  },
   {
     value: "27/27",
     label: "2022 specs re-expressed",
@@ -16,11 +24,6 @@ export const stats: readonly Stat[] = [
     value: "3",
     label: "divergences surfaced",
     detail: "compiling the 2022 plan verbatim caught intent/implementation gaps — one never tested by anyone",
-  },
-  {
-    value: "0",
-    label: "LLM calls at runtime",
-    detail: "CI needs no API key, no session — the exit code gates the merge",
   },
   {
     value: "5/5",
