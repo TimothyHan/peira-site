@@ -12,7 +12,7 @@ export const hero = {
   headlineClaim: "Your test plan",
   headlineTested: "compiles.",
   headlineQuiet: "The runner never thinks.",
-  lede: "You write the plan in markdown. AI compiles it into deterministic tests. Every verdict traces back to a sentence you wrote.",
+  lede: "Intent compiler, deterministic runner, failure triage, and evidence ledger in a single CLI. Use peira compile and peira run against any REST API — the config can be one URL.", // rendered with inline /docs#cli links in hero.tsx
   installCommand: "npm install -g peira",
   honesty: ["No API key", "No signup", "Zero LLM at runtime", "MIT"],
   secondaryCta: { label: "View on GitHub", href: "https://github.com/slowhama/peira" },

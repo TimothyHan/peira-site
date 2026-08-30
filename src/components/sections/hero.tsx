@@ -22,7 +22,16 @@ export function HeroSection() {
           </ScrollAnimate>
           <ScrollAnimate delay={0.2}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              {hero.lede}
+              Intent compiler, deterministic runner, failure triage, and evidence ledger in a
+              single CLI. Use{" "}
+              <a href="/docs#cli" className="font-mono text-[0.9em] text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+                peira compile
+              </a>{" "}
+              and{" "}
+              <a href="/docs#cli" className="font-mono text-[0.9em] text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+                peira run
+              </a>{" "}
+              against any REST API — the config can be one URL.
             </p>
           </ScrollAnimate>
           <ScrollAnimate delay={0.3}>
