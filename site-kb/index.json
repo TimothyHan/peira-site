@@ -10,16 +10,22 @@
   "pages": {
     "homepage": {
       "sections": [
-        "hero"
+        "hero",
+        "proof-strip",
+        "loop",
+        "features",
+        "ledger",
+        "cta-close"
       ],
-      "status": "in-progress"
+      "status": "sections-complete"
     }
   },
   "workflow": {
-    "phase": "scaffold-complete",
+    "phase": "sections-complete",
     "designDirection": "complete",
     "patterns": "complete",
     "designSystem": "complete",
-    "scaffold": "complete"
+    "scaffold": "complete",
+    "homepageSections": "complete"
   }
 }

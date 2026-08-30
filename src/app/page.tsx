@@ -11,11 +11,21 @@
 //   6. CTA close       — cta-repetition-pattern: install command again + radical-honesty sub-copy
 
 import { HeroSection } from "@/components/sections/hero";
+import { ProofStripSection } from "@/components/sections/proof-strip";
+import { LoopSection } from "@/components/sections/loop";
+import { FeaturesSection } from "@/components/sections/features";
+import { LedgerSection } from "@/components/sections/ledger";
+import { CtaCloseSection } from "@/components/sections/cta-close";
 
 export default async function HomePage() {
   return (
     <>
       <HeroSection />
+      <ProofStripSection />
+      <LoopSection />
+      <FeaturesSection />
+      <LedgerSection />
+      <CtaCloseSection />
     </>
   );
 }
