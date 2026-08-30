@@ -57,6 +57,8 @@ For all orders o, for all users u ≠ owner(o): GET /orders/{o} as u → 403.`,
     title: "Run locally — and close the loop",
     body: "Verdicts are pass | fail | error — assertion failures and infrastructure failures are never conflated. The seed is always printed: any failure reproduces exactly with the same seed against the same service state. First runs usually surface both real bugs and stale intent — that's the point.",
     code: `peira run cases --bed bed.json --seed 42 --evidence run.jsonl
+peira run cases --bed bed.json --seed 42 --only CASE-order-cancel-001   # re-run the one failing case
+peira run cases --bed bed.json --parallel 8   # worker pool; verdicts + evidence identical to serial
 peira triage --evidence run.jsonl --intent intent   # proposes bug | drift | flake; applies nothing
 # you adjudicate: fix the service, or edit the intent…
 peira validate cases --bed bed.json --intent intent # stale flags name the affected cases
@@ -67,12 +69,12 @@ peira compile intent --out cases --bed bed.json --section <changed-section>`,
   {
     num: "05",
     title: "CI — zero LLM",
-    body: "Commit intent/, cases/, and the bed configs. CI needs no key and no session; the exit code gates the merge. When CI goes red, pull the evidence artifact and triage it locally — adjudication stays a human act, never a bot in the pipeline.",
+    body: "Commit intent/, cases/, and the bed configs. CI needs no key and no session; the exit code gates the merge, and --junit writes standard JUnit XML (pass/fail/error map to testcase/failure/error) so any CI test-report UI renders the run without wrapper scripts. When CI goes red, pull the evidence artifact and triage it locally — adjudication stays a human act, never a bot in the pipeline.",
     code: `# .github/workflows/api-tests.yml
 - run: npm ci
 - run: docker compose up -d orders-service
 - run: npx peira validate cases --bed bed.ci.json --intent intent
-- run: npx peira run cases --bed bed.ci.json --seed \${{ github.run_id }} --evidence run.jsonl
+- run: npx peira run cases --bed bed.ci.json --seed \${{ github.run_id }} --evidence run.jsonl --junit junit.xml
 - if: always()
   uses: actions/upload-artifact@v4
   with: { name: evidence, path: run.jsonl }`,
@@ -89,9 +91,9 @@ export interface CliCommand {
 
 export const cliCommands: readonly CliCommand[] = [
   { name: "validate", synopsis: "peira validate [casesDir] [--bed <path>] [--intent <dir>]", description: "Schema + static checks on every case; with --intent also flags stale cases and lints intent structure." },
-  { name: "run", synopsis: "peira run [casesDir] --bed <path> [--seed <n>] [--evidence <path>]", description: "The deterministic runner. Zero LLM; sequential, seeded, reproducible; writes evidence JSONL with credentials redacted at write time." },
+  { name: "run", synopsis: "peira run [casesDir] --bed <path> [--seed <n>] [--evidence <path>] [--only <id>]… [--grep <substr>] [--parallel <n>] [--junit <path>]", description: "The deterministic runner. Zero LLM; seeded, reproducible; writes evidence JSONL with credentials redacted at write time. --only/--grep re-run just the cases you name; --parallel runs a worker pool with verdicts and evidence order identical to serial; --junit emits CI-standard XML." },
   { name: "compile", synopsis: "peira compile [intentDir] --out <dir> [--bed <path>] [--section <id>]…", description: "Intent sections → schema-gated JSON cases via your own Claude session. --section recompiles exactly the named sections and merges the manifest." },
-  { name: "stats", synopsis: "peira stats [casesDir]", description: "DSL coverage and recurring escape-hatch shapes — the compiler telling you which primitive the DSL is missing, with evidence." },
+  { name: "stats", synopsis: "peira stats [casesDir] [--openapi <spec.json>]", description: "DSL coverage and recurring escape-hatch shapes — the compiler telling you which primitive the DSL is missing, with evidence. With --openapi: endpoint coverage against your API surface — which endpoints have no case. The spec stays optional; the report only exists when you offer one." },
   { name: "triage", synopsis: "peira triage --evidence <run.jsonl> --intent <dir>", description: "Offline failure classification: bug | drift | flake, judged against the intent text. Proposals only — nothing is ever applied." },
   { name: "evidence", synopsis: "peira evidence --evidence <run.jsonl> [--triage <file>] --intent <dir>", description: "Records an adjudicated run into the evidence ledger (plus a portable JSONL export). Sections earn applied / contradicted per run." },
   { name: "trust", synopsis: "peira trust", description: "The ledger standings — per intent section: applied, contradicted, runs, last applied." },
@@ -127,7 +129,7 @@ export const caseAnatomy = {
     { key: "$users.alice", note: "A bed principal by name. Cases never contain credentials; the bed maps names to auth per environment." },
     { key: "{{unique.nonce}}", note: "Seed-derived discriminator: hash(seed, case id, key). Same seed → same value; no fixture files." },
     { key: "capture", note: "Maps an alias to a response path (body.id). Later steps reference it as $orderId (whole value) or {{orderId}} inside strings." },
-    { key: "expect", note: "Subset matching, Jest toMatchObject parity. Matchers: {\"$any\": \"string\" | \"number\" | \"boolean\"} and literal null. Add pollUntil for eventual consistency — never wall-clock sleeps." },
+    { key: "expect", note: "Subset matching, Jest toMatchObject parity, on status, headers (case-insensitive — {\"content-type\": {\"$contains\": \"application/json\"}}), and body. Matchers: {\"$any\": \"string\" | \"number\" | \"boolean\"}, {\"$contains\": \"<substring>\"}, and literal null. Add pollUntil for eventual consistency — never wall-clock sleeps." },
     { key: "teardown.drain", note: "Declares that this case must clean up; the bed's drain probe knows how. The runner polls every captured job to a terminal state before the next case runs." },
   ] as readonly AnatomyNote[],
 } as const;

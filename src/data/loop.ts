@@ -27,7 +27,7 @@ export const loopStages: readonly LoopStage[] = [
   {
     num: "03",
     title: "Run",
-    body: "Zero LLM. Seeded, sequential, reproducible. Verdicts are pass | fail | error — assertion and infrastructure failures never conflate.",
+    body: "Zero LLM. Seeded, reproducible, parallel without losing determinism. Verdicts are pass | fail | error — assertion and infrastructure failures never conflate.",
     actor: "deterministic",
     actorLabel: "Deterministic",
   },
