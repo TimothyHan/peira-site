@@ -147,10 +147,9 @@ compiled 1 case(s) from 1 section(s) → cases`,
 export const tally = {
   writeLabel: "what you write",
   write: `## Cancelling a shipped order
-<!-- peira: id=order-cancel-shipped kind=ac -->
 Cancelling an order that has already shipped
 is refused with 409, and the order stays SHIPPED.`,
-  writeNote: "…that's the whole authoring surface.",
+  writeNote: "…that's the whole authoring surface — your agent handles the tagging.",
   getLabel: "what you get",
   gets: [
     "an executable, reviewable case — 16 sections became 26 cases in the reference bed",
