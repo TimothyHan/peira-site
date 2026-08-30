@@ -21,11 +21,12 @@
     }
   },
   "workflow": {
-    "phase": "sections-complete",
+    "phase": "navigation-complete",
     "designDirection": "complete",
     "patterns": "complete",
     "designSystem": "complete",
     "scaffold": "complete",
-    "homepageSections": "complete"
+    "homepageSections": "complete",
+    "navigation": "complete"
   }
 }

@@ -21,3 +21,13 @@ export const nav: NavItem[] = [
   { label: "Evidence", href: "#evidence" },
   { label: "GitHub", href: "https://github.com/slowhama/peira", external: true },
 ];
+
+export const companyInfo = {
+  name: "Peira",
+  license: "MIT",
+  copyright: `© ${new Date().getFullYear()} Peira — πεῖρα: trial, the root of "empirical"`,
+  links: [
+    { label: "GitHub", href: "https://github.com/slowhama/peira" },
+    { label: "npm", href: "https://www.npmjs.com/package/peira" },
+  ],
+} as const;

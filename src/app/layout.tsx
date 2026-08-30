@@ -30,9 +30,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
       <body className={`${heading.variable} ${body.variable} ${mono.variable} antialiased`}>
-        <div className="site-theme">
+        <div className="site-theme flex min-h-screen flex-col">
           <Header />
-          <main>{children}</main>
+          <main className="flex-1 pt-14">{children}</main>
           <Footer />
         </div>
       </body>
