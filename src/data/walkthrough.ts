@@ -20,16 +20,16 @@ export const walkthrough: readonly WalkStep[] = [
     key: "write",
     tab: "01 write",
     stage: "01",
-    title: "You write the promise",
+    title: "You describe the promise — plain English",
     narration:
-      "Two lines of markdown, in a file your team owns. The tagged id is a permanent anchor — every case, verdict, and trust event will trace back to this section.",
+      "Your whole job is the sentences. The tag is mechanical: your agent adds it (it's in the drop-in agent instructions), peira adopt adds it to existing documents, and untagged headings work anyway — ids derive from the text. The id just makes lineage survive rewording.",
     actor: "human",
-    actorLabel: "Human",
+    actorLabel: "Human · agent tags",
     artifactLabel: "intent/orders.md",
-    artifact: `## Cancelling a shipped order
-<!-- peira: id=order-cancel-shipped kind=ac -->
-Cancelling an order that has already shipped is refused
-with 409, and the order stays SHIPPED.`,
+    artifact: `## Cancelling a shipped order                   ← you
+<!-- peira: id=order-cancel-shipped kind=ac -->  ← your agent
+Cancelling an order that has already shipped     ← you
+is refused with 409, and the order stays SHIPPED.`,
   },
   {
     key: "compile",
