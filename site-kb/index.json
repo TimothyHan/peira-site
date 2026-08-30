@@ -7,7 +7,14 @@
     "aesthetic": []
   },
   "createdAt": "2026-08-29T00:00:00Z",
-  "pages": {},
+  "pages": {
+    "homepage": {
+      "sections": [
+        "hero"
+      ],
+      "status": "in-progress"
+    }
+  },
   "workflow": {
     "phase": "scaffold-complete",
     "designDirection": "complete",

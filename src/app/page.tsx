@@ -10,12 +10,12 @@
 //   5. Evidence ledger — trust standings table, verdict chips
 //   6. CTA close       — cta-repetition-pattern: install command again + radical-honesty sub-copy
 
+import { HeroSection } from "@/components/sections/hero";
+
 export default async function HomePage() {
   return (
-    <section className="flex min-h-screen items-center justify-center">
-      <p className="font-mono text-sm text-muted-foreground">
-        run-start — sections will be built with /site-build-section
-      </p>
-    </section>
+    <>
+      <HeroSection />
+    </>
   );
 }
