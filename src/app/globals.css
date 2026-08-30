@@ -1,0 +1,143 @@
+@import "tailwindcss";
+/* Explicit source root: the dev server may run with an external cwd, which
+   breaks Tailwind v4's automatic content detection. */
+@source "../../src";
+
+/* ============================================================
+   Peira showcase — design tokens
+   Source of truth: site-kb/design/direction.md
+   One committed near-black world. The ONLY chromatic ink is the
+   verdict trio (pass/fail/error) — no brand accent exists.
+   ============================================================ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-destructive: var(--destructive);
+  --color-ring: var(--ring);
+  --color-pass: var(--verdict-pass);
+  --color-fail: var(--verdict-fail);
+  --color-error: var(--verdict-error);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.site-theme {
+  /* achromatic ground, faint cool cast (direction: OKLCH 0.17 0.008 260) */
+  --background: oklch(0.17 0.008 260);
+  --foreground: oklch(0.93 0.005 260);
+  /* primary = pass-green: the only "brand" color is the verdict for success */
+  --primary: oklch(0.75 0.17 155);
+  --primary-foreground: oklch(0.16 0.02 155);
+  --muted: oklch(0.21 0.008 260);
+  --muted-foreground: oklch(0.68 0.01 260);
+  /* hairlines, not shadows: white at 10% alpha */
+  --border: oklch(1 0 0 / 10%);
+  --card: oklch(0.205 0.008 260);
+  --card-foreground: oklch(0.93 0.005 260);
+  --destructive: oklch(0.64 0.19 25);
+  --ring: oklch(0.75 0.17 155);
+  /* the verdict trio — the entire chromatic vocabulary */
+  --verdict-pass: oklch(0.75 0.17 155);
+  --verdict-fail: oklch(0.64 0.19 25);
+  --verdict-error: oklch(0.78 0.14 85);
+
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* "dark-section" in this single-world system is the RAISED band —
+   a slightly lifted surface for full-bleed feature panels. Every
+   semantic token is overridden so components need no local logic. */
+.site-theme .dark-section {
+  --background: oklch(0.215 0.008 260);
+  --foreground: oklch(0.94 0.005 260);
+  --primary: oklch(0.75 0.17 155);
+  --primary-foreground: oklch(0.16 0.02 155);
+  --muted: oklch(0.25 0.008 260);
+  --muted-foreground: oklch(0.72 0.01 260);
+  --border: oklch(1 0 0 / 14%);
+  --card: oklch(0.245 0.008 260);
+  --card-foreground: oklch(0.94 0.005 260);
+  --destructive: oklch(0.64 0.19 25);
+  --ring: oklch(0.75 0.17 155);
+  background-color: oklch(0.215 0.008 260);
+  color: oklch(0.94 0.005 260);
+}
+
+/* Display face: Anton, single weight, uppercase, H1/H2 only.
+   All hierarchy below H2 is Geist weight, not the display face. */
+.site-theme h1,
+.site-theme h2 {
+  font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+.site-theme h3,
+.site-theme h4 {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+}
+
+/* Two-tone headline rule (direction: white claim / muted qualifier) */
+.site-theme .headline-quiet {
+  color: var(--muted-foreground);
+}
+
+/* Evidence-log eyebrow: mono, uppercase, letterspaced (direction §tokens) */
+.site-theme .eyebrow {
+  font-family: var(--font-mono-face), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* Verdict chips: filled verdict color + near-black text (vitest PASS treatment) */
+.site-theme .chip {
+  font-family: var(--font-mono-face), ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.25rem;
+  color: oklch(0.17 0.01 260);
+  display: inline-block;
+}
+.site-theme .chip-pass { background: var(--verdict-pass); }
+.site-theme .chip-fail { background: var(--verdict-fail); }
+.site-theme .chip-error { background: var(--verdict-error); }
+
+/* Hover vocabulary: hairline brightens, ~80ms; no lifts, no shadows */
+.site-theme .hover-hairline {
+  transition: border-color 80ms ease;
+}
+.site-theme .hover-hairline:hover {
+  border-color: oklch(1 0 0 / 25%);
+}
+
+/* Base resets */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,30 @@
+{
+  "version": "1.2",
+  "contextSource": "spec",
+  "overlays": {
+    "archetype": "saas-product-landing",
+    "regional": [],
+    "industry": [],
+    "aesthetic": []
+  },
+  "themeClass": {
+    "base": "site-theme",
+    "darkSection": "dark-section"
+  },
+  "fonts": {
+    "body": "Geist",
+    "heading": "Anton",
+    "mono": "Geist_Mono",
+    "headingWeights": [
+      "400"
+    ]
+  },
+  "brandColor": null,
+  "teamMode": "solo",
+  "specPath": "../peira",
+  "customContextMethod": null,
+  "githubCli": true,
+  "defaultBranch": "main",
+  "createdAt": "2026-08-29T00:00:00Z",
+  "notes": "Peira showcase \u2014 OSS dev tool, not signup SaaS: adapt funnel CTAs to install/GitHub. Aesthetic intentionally empty; site-kb/design/direction.md is the visual authority. Prior artifact design (aegean/Archivo) explicitly discarded per user."
+}

@@ -1,0 +1,18 @@
+{
+  "project": "peira-showcase",
+  "overlays": {
+    "archetype": "saas-product-landing",
+    "regional": [],
+    "industry": [],
+    "aesthetic": []
+  },
+  "createdAt": "2026-08-29T00:00:00Z",
+  "pages": {},
+  "workflow": {
+    "phase": "scaffold-complete",
+    "designDirection": "complete",
+    "patterns": "complete",
+    "designSystem": "complete",
+    "scaffold": "complete"
+  }
+}
