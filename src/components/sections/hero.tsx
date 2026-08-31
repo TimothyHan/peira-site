@@ -21,7 +21,7 @@ export function HeroSection({ locale = "en" }: { locale?: Locale }) {
           </ScrollAnimate>
           <ScrollAnimate delay={0.1}>
             <h1 className="mt-5 text-5xl leading-[0.93] md:text-7xl xl:text-8xl">
-              {h.headlineClaim} <span className="text-pass">{h.headlineTested}</span>
+              {h.headlineClaim}{locale === "ko" ? <br /> : " "}<span className="text-pass">{h.headlineTested}</span>
               <br />
               {/* consequence line, one tier down — the claim stays the pitch-carrier */}
               <span className="headline-quiet block text-[0.62em] leading-[1.05]">{h.headlineQuiet}</span>

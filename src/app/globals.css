@@ -149,6 +149,10 @@ body {
    names and JSON are English either way — with a Korean fallback for any Hangul inside it. */
 .ko-root {
   font-family: var(--font-body-kr), var(--font-body), system-ui, sans-serif;
+  /* Hangul breaks at ANY character by default, so "테스트" splits into "테스/트" mid-word.
+     keep-all wraps at word (어절) boundaries the way Latin text wraps at spaces. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 /* Display weight for H1/H2 ONLY — the same rule the Latin side follows. h3/h4 stay at body
    weight; a poster face at 18px is what makes Hangul hard to read. */
