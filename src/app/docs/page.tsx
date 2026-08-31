@@ -1,7 +1,28 @@
 import type { Metadata } from "next";
 import { gettingStarted, cliCommands, caseAnatomy, agentLoop, agentClaudeMd, agentGuarantees, reference, referenceLede } from "@/data/docs";
 import { InstallCommand } from "@/components/ui/install-command";
+import { DocsNav } from "@/components/docs-nav";
 import { hero } from "@/data/hero";
+
+const SECTIONS = [
+  { id: "getting-started", label: "getting-started" },
+  { id: "agents", label: "with-your-agent" },
+  { id: "cli", label: "cli-reference" },
+  { id: "anatomy", label: "case-anatomy" },
+  {
+    id: "reference",
+    label: "reference",
+    children: [
+      { id: "ref-case", label: "the case" },
+      { id: "ref-request", label: "request step" },
+      { id: "ref-expect", label: "expect" },
+      { id: "ref-interpolation", label: "interpolation" },
+      { id: "ref-bed", label: "bed.json" },
+      { id: "ref-verdicts", label: "verdicts" },
+      { id: "ref-escape-hatch", label: "escape hatch" },
+    ],
+  },
+] as const;
 
 export const metadata: Metadata = {
   title: "Docs — Peira",
@@ -20,7 +41,11 @@ function CodeBlock({ code }: { code: string }) {
 // Developer docs — server component; content from src/data/docs.ts.
 export default function DocsPage() {
   return (
-    <div className="container mx-auto max-w-3xl px-4 py-12 md:py-16">
+    <div className="container mx-auto max-w-5xl px-4 py-12 md:py-16 lg:grid lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-12">
+      <aside className="hidden lg:block">
+        <DocsNav items={SECTIONS} />
+      </aside>
+      <div className="min-w-0 max-w-3xl">
       {/* header */}
       <div className="border-b border-border pb-6">
         <p className="eyebrow">docs · zero → ci</p>
@@ -31,7 +56,7 @@ export default function DocsPage() {
           like. Everything below is real — commands, flags, and output shapes come from the
           tool, not from marketing.
         </p>
-        <nav aria-label="On this page" className="mt-5 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs">
+        <nav aria-label="On this page" className="mt-5 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs lg:hidden">
           <a href="#getting-started" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">getting-started</a>
           <a href="#agents" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">with-your-agent</a>
           <a href="#cli" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">cli-reference</a>
@@ -41,7 +66,7 @@ export default function DocsPage() {
       </div>
 
       {/* getting started */}
-      <section id="getting-started" className="pt-12">
+      <section id="getting-started" className="scroll-mt-20 pt-12">
         <h2 className="text-2xl md:text-3xl">Getting started</h2>
         <div className="mt-8 space-y-12">
           {gettingStarted.map((step) => (
@@ -73,7 +98,7 @@ export default function DocsPage() {
       </section>
 
       {/* using peira through your agent — the primary way to use Peira, so it leads */}
-      <section id="agents" className="pt-16">
+      <section id="agents" className="scroll-mt-20 pt-16">
         <h2 className="text-2xl md:text-3xl">Using Peira through your agent</h2>
         <p className="mt-3 text-sm leading-[1.8] text-foreground/75">
           This is the primary way to use Peira. It is agent-native by design: the authoring
@@ -135,7 +160,7 @@ export default function DocsPage() {
       </section>
 
       {/* CLI reference */}
-      <section id="cli" className="pt-16">
+      <section id="cli" className="scroll-mt-20 pt-16">
         <h2 className="text-2xl md:text-3xl">CLI reference</h2>
         <p className="mt-3 text-sm leading-[1.8] text-foreground/75">
           Ten commands. Only <code className="font-mono text-[13px]">compile</code>,{" "}
@@ -160,7 +185,7 @@ export default function DocsPage() {
       </section>
 
       {/* case anatomy */}
-      <section id="anatomy" className="pt-16">
+      <section id="anatomy" className="scroll-mt-20 pt-16">
         <h2 className="text-2xl md:text-3xl">Anatomy of a case</h2>
         <p className="mt-3 text-sm leading-[1.8] text-foreground/75">
           A case is JSON: optional setup steps, one test step, optional teardown. Five
@@ -185,12 +210,12 @@ export default function DocsPage() {
       </section>
 
       {/* reference — the complete closed surface, finite by design */}
-      <section id="reference" className="pt-16">
+      <section id="reference" className="scroll-mt-20 pt-16">
         <h2 className="text-2xl md:text-3xl">Reference</h2>
         <p className="mt-3 text-sm leading-[1.8] text-foreground/75">{referenceLede}</p>
         <div className="mt-8 space-y-10">
           {reference.map((group) => (
-            <div key={group.title}>
+            <div key={group.id} id={group.id} className="scroll-mt-20">
               <h3 className="text-lg font-semibold">{group.title}</h3>
               {group.intro && (
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{group.intro}</p>
@@ -210,6 +235,7 @@ export default function DocsPage() {
           authority: schema/case.schema.json · full document: docs/REFERENCE.md in the repo
         </p>
       </section>
+      </div>
     </div>
   );
 }

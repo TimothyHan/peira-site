@@ -155,6 +155,7 @@ export interface RefEntry {
 }
 
 export interface RefGroup {
+  id: string;
   title: string;
   intro?: string;
   entries: readonly RefEntry[];
@@ -165,6 +166,7 @@ export const referenceLede =
 
 export const reference: readonly RefGroup[] = [
   {
+    id: "ref-case",
     title: "The case",
     intro: "One JSON file. id, from, and test are required.",
     entries: [
@@ -176,6 +178,7 @@ export const reference: readonly RefGroup[] = [
     ],
   },
   {
+    id: "ref-request",
     title: "A request step",
     entries: [
       { term: "request", note: "method (get | post | put | delete | patch), route (starts with /), optional query and body. auth takes three forms: \"$users.<alias>\", a literal {username, password} for negative auth tests, or absent for anonymous." },
@@ -184,6 +187,7 @@ export const reference: readonly RefGroup[] = [
     ],
   },
   {
+    id: "ref-expect",
     title: "expect — the oracle",
     intro: "Subset matching, Jest toMatchObject parity: objects as subsets at every level, arrays index-wise with equal length, primitives strictly.",
     entries: [
@@ -197,6 +201,7 @@ export const reference: readonly RefGroup[] = [
     ],
   },
   {
+    id: "ref-interpolation",
     title: "Interpolation",
     entries: [
       { term: "\"$alias\"", note: "A string that IS the reference resolves to the captured value, type-preserving." },
@@ -206,6 +211,7 @@ export const reference: readonly RefGroup[] = [
     ],
   },
   {
+    id: "ref-bed",
     title: "The bed — bed.json",
     intro: "The only place Peira learns about your service. Everything except baseUrl is optional.",
     entries: [
@@ -218,6 +224,7 @@ export const reference: readonly RefGroup[] = [
     ],
   },
   {
+    id: "ref-verdicts",
     title: "Verdicts, exit codes, evidence",
     entries: [
       { term: "pass | fail | error", note: "fail = an assertion did not hold; error = infrastructure failed before an assertion could be judged. Never conflated — and --junit maps them to testcase/failure/error losslessly." },
@@ -227,6 +234,7 @@ export const reference: readonly RefGroup[] = [
     ],
   },
   {
+    id: "ref-escape-hatch",
     title: "The escape hatch, and templates",
     entries: [
       { term: "steps", note: "Generated procedure with a typed contract: {id, reads[], produces[], code}. Invoked in setup only as {\"step\": \"STEP-…\", \"bind\": {…}} — invocations structurally cannot carry expect or capture; the claim stays declarative. Every use is telemetry asking which primitive the DSL is missing." },
