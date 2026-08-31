@@ -20,7 +20,7 @@ export const gettingStarted: readonly DocStep[] = [
   {
     num: "01",
     title: "Describe your service — bed.json",
-    body: "The bed config is the only place Peira learns anything about your service. Everything except baseUrl is optional: users are named principals cases refer to as $users.alice (never raw credentials); reset is one HTTP call before each run pointed at your service's own wipe-state endpoint; drain tells the runner how to ask your service whether an async job has settled, so one case's leftovers can never poison the next case's timing.",
+    body: "The bed config is the only place Peira learns anything about your service. Everything except baseUrl is optional: users are named principals cases refer to as $users.alice (never raw credentials); reset is one HTTP call before each run pointed at your service's own wipe-state endpoint; drain tells the runner how to ask your service whether an async job has settled, so one case's leftovers can never poison the next case's timing; timeouts declares a slow environment's latency envelope (ceilings only — hitting one is an error verdict, never a fail).",
     code: `{
   "baseUrl": "http://localhost:8080",
   "users": { "alice": { "username": "alice", "password": "test-pw" } },
@@ -59,12 +59,13 @@ For all orders o, for all users u ≠ owner(o): GET /orders/{o} as u → 403.`,
     code: `peira run cases --bed bed.json --seed 42 --evidence run.jsonl
 peira run cases --bed bed.json --seed 42 --only CASE-order-cancel-001   # re-run the one failing case
 peira run cases --bed bed.json --parallel 8   # worker pool; verdicts + evidence identical to serial
+peira run cases --bed bed.json --intent intent --watch   # re-run on change, mapped by lineage
 peira triage --evidence run.jsonl --intent intent   # proposes bug | drift | flake; applies nothing
 # you adjudicate: fix the service, or edit the intent…
 peira validate cases --bed bed.json --intent intent # stale flags name the affected cases
 peira compile intent --out cases --bed bed.json --section <changed-section>`,
     codeLang: "bash",
-    note: "Share readable documentation any time: peira render cases --intent intent --evidence run.jsonl (Given/When/Then, or a full HTML run report). One-way output — regenerate it, never edit it.",
+    note: "Watch mode maps changes by lineage, not an import graph: a case edit re-runs exactly that case; an intent edit re-checks staleness and names the affected cases — recompiling stays your call, never an LLM on a save hook. And share readable documentation any time: peira render cases --intent intent --evidence run.jsonl (Given/When/Then, or a full HTML run report; one-way output — regenerate, never edit).",
   },
   {
     num: "05",
@@ -91,7 +92,7 @@ export interface CliCommand {
 
 export const cliCommands: readonly CliCommand[] = [
   { name: "validate", synopsis: "peira validate [casesDir] [--bed <path>] [--intent <dir>]", description: "Schema + static checks on every case; with --intent also flags stale cases and lints intent structure." },
-  { name: "run", synopsis: "peira run [casesDir] --bed <path> [--seed <n>] [--evidence <path>] [--only <id>]… [--grep <substr>] [--parallel <n>] [--junit <path>]", description: "The deterministic runner. Zero LLM; seeded, reproducible; writes evidence JSONL with credentials redacted at write time. --only/--grep re-run just the cases you name; --parallel runs a worker pool with verdicts and evidence order identical to serial; --junit emits CI-standard XML." },
+  { name: "run", synopsis: "peira run [casesDir] --bed <path> [--seed <n>] [--evidence <path>] [--only <id>]… [--grep <substr>] [--parallel <n>] [--junit <path>] [--shard <i>/<n>] [--watch]", description: "The deterministic runner. Zero LLM; seeded, reproducible; writes evidence JSONL with credentials redacted at write time. --only/--grep re-run just the cases you name; --parallel runs a worker pool with verdicts and evidence order identical to serial; --junit emits CI-standard XML; --shard fans out across machines in disjoint deterministic slices; --watch re-runs on change, mapped by lineage." },
   { name: "compile", synopsis: "peira compile [intentDir] --out <dir> [--bed <path>] [--section <id>]…", description: "Intent sections → schema-gated JSON cases via your own Claude session. --section recompiles exactly the named sections and merges the manifest." },
   { name: "stats", synopsis: "peira stats [casesDir] [--openapi <spec.json>]", description: "DSL coverage and recurring escape-hatch shapes — the compiler telling you which primitive the DSL is missing, with evidence. With --openapi: endpoint coverage against your API surface — which endpoints have no case. The spec stays optional; the report only exists when you offer one." },
   { name: "triage", synopsis: "peira triage --evidence <run.jsonl> --intent <dir>", description: "Offline failure classification: bug | drift | flake, judged against the intent text. Proposals only — nothing is ever applied." },
