@@ -15,7 +15,7 @@ export function ProofStripSection({ locale = "en" }: { locale?: Locale }) {
         <ScrollAnimate>
           <p className="eyebrow">{t.eyebrow}</p>
           <h2 className="mt-4 text-3xl md:text-5xl">
-            {t.headClaim} <span className="headline-quiet">{t.headQuiet}</span>
+            {t.headClaim}{t.headQuiet ? <> <span className="headline-quiet">{t.headQuiet}</span></> : null}
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
             {t.lede}

@@ -7,6 +7,7 @@ export type Locale = "en" | "ko";
 export interface SectionCopy {
   eyebrow: string;
   headClaim: string;
+  /** optional second half of the two-tone headline; empty for single-phrase titles */
   headQuiet: string;
   lede: string;
 }
@@ -21,8 +22,8 @@ export const sections: Record<Locale, SectionSet> = {
   en: {
     proof: {
       eyebrow: "evidence · docs/findings/",
-      headClaim: "Measured,",
-      headQuiet: "not promised.",
+      headClaim: "Quick metrics",
+      headQuiet: "",
       lede: "Peira’s bed is a faithful re-implementation of a real production test target, plus its original 27-spec hand-written suite — a baseline to compare against, honestly.",
     },
     loop: {
@@ -42,8 +43,8 @@ export const sections: Record<Locale, SectionSet> = {
   ko: {
     proof: {
       eyebrow: "evidence · docs/findings/",
-      headClaim: "약속이 아니라",
-      headQuiet: "측정값입니다.",
+      headClaim: "측정값",
+      headQuiet: "",
       lede: "Peira의 베드는 실제 운영 테스트 대상을 충실히 재구현한 것이며, 그 서비스의 원래 27개 손으로 쓴 명세도 함께 있습니다 — 정직하게 견줄 기준선입니다.",
     },
     loop: {
