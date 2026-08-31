@@ -15,7 +15,7 @@ export const hero = {
   lede: "Intent compiler, deterministic runner, failure triage, and evidence ledger in a single CLI. Use peira compile and peira run against any REST API — the config can be one URL.", // rendered with inline /docs#cli links in hero.tsx
   installCommand: "npm install -g peira",
   honesty: ["No API key", "No signup", "Zero LLM at runtime", "MIT"],
-  secondaryCta: { label: "View on GitHub", href: "https://github.com/slowhama/peira" },
+  secondaryCta: { label: "View on GitHub", href: "https://github.com/TimothyHan/peira" },
 } as const;
 
 export const heroTerminal: TermLine[] = [
