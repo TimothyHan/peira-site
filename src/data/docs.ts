@@ -29,7 +29,7 @@ peira init --ci     # …plus a zero-LLM GitHub Actions workflow`,
   {
     num: "02",
     title: "Describe your service — bed.json",
-    body: "The bed config is the only place Peira learns anything about your service. Everything except baseUrl is optional: users are named principals cases refer to as $users.alice (never raw credentials); reset is one HTTP call before each run pointed at your service's own wipe-state endpoint; drain tells the runner how to ask your service whether an async job has settled, so one case's leftovers can never poison the next case's timing; timeouts declares a slow environment's latency envelope (ceilings only — hitting one is an error verdict, never a fail).",
+    body: "The bed config is the only place Peira learns anything about your service. Everything except baseUrl is optional: users are named principals cases refer to as $users.alice (never raw credentials); reset is one HTTP call before each run pointed at your service's own wipe-state endpoint; drain tells the runner how to ask your service whether an async job has settled, so one case's leftovers can never poison the next case's timing; timeouts declares a slow environment's latency envelope (ceilings only — hitting one is an error verdict, never a fail); service tells peira run how to start the app under test — an already-answering baseUrl is reused, a server Peira started is killed (whole process group) when the run ends.",
     code: `{
   "baseUrl": "http://localhost:8080",
   "users": { "alice": { "username": "alice", "password": "test-pw" } },
