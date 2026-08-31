@@ -2,6 +2,7 @@ import { ScrollAnimate } from "@/components/scroll-animate";
 import { InstallCommand } from "@/components/ui/install-command";
 import { HeroTerminal } from "./hero-terminal";
 import { hero, heroTerminal } from "@/data/hero";
+import { url } from "@/data/site";
 
 // Section 1 · hook — dual-cta-hero (adapted per site-kb/design/patterns.md):
 // primary CTA = the install command, secondary = GitHub hairline pill.
@@ -25,11 +26,11 @@ export function HeroSection() {
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
               Intent compiler, deterministic runner, failure triage, and evidence ledger in a
               single CLI. Use{" "}
-              <a href="/docs#cli" className="font-mono text-[0.9em] text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+              <a href={url("/docs#cli")} className="font-mono text-[0.9em] text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
                 peira compile
               </a>{" "}
               and{" "}
-              <a href="/docs#cli" className="font-mono text-[0.9em] text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
+              <a href={url("/docs#cli")} className="font-mono text-[0.9em] text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
                 peira run
               </a>{" "}
               against any REST API — the config can be one URL.

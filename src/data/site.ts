@@ -1,4 +1,10 @@
 // Site-wide data: nav, links, install command. /site-build-nav extends this.
+
+// The static export is served from a subpath (basePath in next.config.ts). Next rewrites
+// <Link> and metadata automatically, but NOT raw href/src strings — so every internal link
+// and asset goes through this helper. Keep it in sync with next.config.ts's basePath.
+export const BASE_PATH = "/peira";
+export const url = (path: string) => `${BASE_PATH}${path}`;
 export const site = {
   name: "Peira",
   tagline: "The AI-native API testing tool",
@@ -16,10 +22,10 @@ export interface NavItem {
 }
 
 export const nav: NavItem[] = [
-  { label: "How it works", href: "/#loop" },
-  { label: "Measured", href: "/#measured" },
-  { label: "Evidence", href: "/#evidence" },
-  { label: "Docs", href: "/docs" },
+  { label: "How it works", href: url("/#loop") },
+  { label: "Measured", href: url("/#measured") },
+  { label: "Evidence", href: url("/#evidence") },
+  { label: "Docs", href: url("/docs") },
   { label: "GitHub", href: "https://github.com/TimothyHan/peira", external: true },
 ];
 

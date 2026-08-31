@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { nav, site } from "@/data/site";
+import { nav, site, url } from "@/data/site";
 
 // Flat anchor nav (single-page site — no mega-menu content exists).
 // The mobile drawer is a custom fixed panel, NOT a portal: portals render
@@ -34,11 +34,11 @@ export function Header() {
     <header className="fixed top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur">
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
         <a
-          href="/"
+          href={url("/")}
           className="flex cursor-pointer items-center gap-2.5 font-mono text-sm font-semibold tracking-widest outline-none ring-0 focus-visible:outline-2 focus-visible:outline-ring"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icon.svg" alt="" aria-hidden className="h-5 w-5 rounded-[4px]" />
+          <img src={url("/icon.svg")} alt="" aria-hidden className="h-5 w-5 rounded-[4px]" />
           <span>
             PEIRA<span className="text-pass">(✓)</span>
           </span>
@@ -84,7 +84,7 @@ export function Header() {
             <div className="flex h-14 items-center justify-between border-b border-border px-4">
               <span className="flex items-center gap-2.5 font-mono text-sm font-semibold tracking-widest">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/icon.svg" alt="" aria-hidden className="h-5 w-5 rounded-[4px]" />
+                <img src={url("/icon.svg")} alt="" aria-hidden className="h-5 w-5 rounded-[4px]" />
                 <span>
                   PEIRA<span className="text-pass">(✓)</span>
                 </span>
