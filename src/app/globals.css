@@ -143,3 +143,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Korean pages (/ko). Anton and Geist carry no Hangul; without these the text falls back to a
+   system font and the design quietly breaks. Code stays in the Latin mono face — command
+   names and JSON are English either way — with a Korean fallback for any Hangul inside it. */
+.ko-root {
+  font-family: var(--font-body-kr), var(--font-body), system-ui, sans-serif;
+}
+.site-theme .ko-root h1,
+.site-theme .ko-root h2,
+.site-theme .ko-root h3 {
+  font-family: var(--font-heading-kr), var(--font-heading), system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+.ko-root .font-mono,
+.ko-root pre,
+.ko-root code {
+  font-family: var(--font-mono-face), var(--font-body-kr), ui-monospace, monospace;
+}

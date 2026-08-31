@@ -1,17 +1,20 @@
 import { ScrollAnimate } from "@/components/scroll-animate";
 import { ledgerCopy, ledgerRows } from "@/data/ledger";
+import { ledgerCopyKo } from "@/data/ko";
+import type { Locale } from "@/data/sections";
 
 // Section 5 · trust — the evidence ledger standings (`peira trust` output shape,
 // rows from the peira repo's real committed ledger).
-export function LedgerSection() {
+export function LedgerSection({ locale = "en" }: { locale?: Locale }) {
+  const copy = locale === "ko" ? ledgerCopyKo : ledgerCopy;
   return (
     <section id="evidence" className="bg-background py-20 md:py-28 lg:py-32">
       <div className="container mx-auto max-w-6xl px-4">
         <ScrollAnimate>
-          <p className="eyebrow">{ledgerCopy.eyebrow}</p>
-          <h2 className="mt-4 max-w-3xl text-3xl md:text-5xl">{ledgerCopy.heading}</h2>
+          <p className="eyebrow">{copy.eyebrow}</p>
+          <h2 className="mt-4 max-w-3xl text-3xl md:text-5xl">{copy.heading}</h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            {ledgerCopy.body}
+            {copy.body}
           </p>
         </ScrollAnimate>
         <ScrollAnimate delay={0.1} direction="none">

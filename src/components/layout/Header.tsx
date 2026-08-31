@@ -1,13 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { nav, site, url } from "@/data/site";
+import { navKo } from "@/data/ko";
 
 // Flat anchor nav (single-page site — no mega-menu content exists).
 // The mobile drawer is a custom fixed panel, NOT a portal: portals render
 // outside .site-theme and lose the CSS custom properties.
 export function Header() {
+  // The Korean pages live under /ko; the switcher just crosses between the two trees.
+  const pathname = usePathname() ?? "/";
+  const isKo = pathname.startsWith("/ko");
+  const items = isKo ? navKo : nav;
+  const homeHref = isKo ? url("/ko/") : url("/");
+  const otherHref = isKo ? url("/") : url("/ko/");
   const [open, setOpen] = useState(false);
   const [atBottom, setAtBottom] = useState(false);
   const navRef = useRef<HTMLElement | null>(null);
@@ -34,7 +42,7 @@ export function Header() {
     <header className="fixed top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur">
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
         <a
-          href={url("/")}
+          href={homeHref}
           className="flex cursor-pointer items-center gap-2.5 font-mono text-sm font-semibold tracking-widest outline-none ring-0 focus-visible:outline-2 focus-visible:outline-ring"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -46,7 +54,7 @@ export function Header() {
 
         {/* desktop: flat anchors */}
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
-          {nav.map((item) => (
+          {items.map((item) => (
             <a
               key={item.href}
               href={item.href}
@@ -57,6 +65,13 @@ export function Header() {
               {item.external && <span aria-hidden className="ml-1 text-muted-foreground/60">↗</span>}
             </a>
           ))}
+          <a
+            href={otherHref}
+            className="cursor-pointer font-mono text-xs text-muted-foreground outline-none ring-0 transition-colors duration-100 hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
+            lang={isKo ? "en" : "ko"}
+          >
+            {isKo ? "EN" : "한국어"}
+          </a>
           <span className="eyebrow">{site.version}</span>
         </nav>
 
@@ -105,7 +120,7 @@ export function Header() {
                 aria-label="Mobile"
                 className="flex h-full flex-col gap-1 overflow-y-auto overscroll-y-contain px-4 pb-6 pt-4"
               >
-                {nav.map((item) => (
+                {items.map((item) => (
                   <a
                     key={item.href}
                     href={item.href}

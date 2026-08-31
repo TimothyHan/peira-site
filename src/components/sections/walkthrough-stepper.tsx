@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { walkthrough } from "@/data/walkthrough";
+import { walkthroughKo } from "@/data/ko";
+import type { Locale } from "@/data/sections";
 import type { Actor } from "@/data/loop";
 
 const ACTOR_CLASS: Record<Actor, string> = {
@@ -12,9 +14,10 @@ const ACTOR_CLASS: Record<Actor, string> = {
 
 // "Follow one promise" — one example shown as the real artifact at every
 // stage. Plain tabs + state; no motion, so nothing to gate on reduced-motion.
-export function WalkthroughStepper() {
+export function WalkthroughStepper({ locale = "en" }: { locale?: Locale }) {
   const [active, setActive] = useState(0);
-  const step = walkthrough[active];
+  const steps = locale === "ko" ? walkthroughKo : walkthrough;
+  const step = steps[active];
 
   return (
     <div className="rounded border border-border">
@@ -23,7 +26,7 @@ export function WalkthroughStepper() {
         aria-label="Workflow stages"
         className="flex overflow-x-auto border-b border-border"
       >
-        {walkthrough.map((s, i) => (
+        {steps.map((s, i) => (
           <button
             key={s.key}
             role="tab"
@@ -70,8 +73,8 @@ export function WalkthroughStepper() {
             </button>
             <button
               type="button"
-              onClick={() => setActive((n) => Math.min(walkthrough.length - 1, n + 1))}
-              disabled={active === walkthrough.length - 1}
+              onClick={() => setActive((n) => Math.min(steps.length - 1, n + 1))}
+              disabled={active === steps.length - 1}
               className="cursor-pointer rounded border border-border px-3 py-1.5 text-xs font-medium outline-none ring-0 transition-colors duration-100 hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:cursor-default disabled:opacity-40"
             >
               Next →
