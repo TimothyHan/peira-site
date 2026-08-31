@@ -16,10 +16,18 @@ export const gettingStarted: readonly DocStep[] = [
     body: "Node ≥ 18, one first-party dependency — no third-party code on the trust path. Running, validating, and rendering need nothing else, ever. Only the authoring commands (compile, adopt) and offline triage use a model, and they shell out to your own logged-in Claude Code CLI session: no API key to provision, nothing in CI.",
     code: "npm install -g peira",
     codeLang: "bash",
-    note: "Then scaffold the project with peira init (--ci adds a zero-LLM GitHub Actions workflow): bed.json, an example intent, and AGENTS.md — the cross-tool agent instructions Claude, Cursor, and Copilot-style agents read, with a CLAUDE.md import for Claude Code. Deterministic, never overwrites.",
   },
   {
     num: "01",
+    title: "Scaffold — peira init",
+    body: "One command sets the project up: bed.json, an example intent pair (one acceptance criterion, one invariant), an empty cases/, and AGENTS.md — the cross-tool agent instructions Claude, Cursor, and Copilot-style agents read, with a one-line CLAUDE.md import for Claude Code. Deterministic and zero-LLM like everything on the trust path; zero prompts, so your agent can run it too; and it never overwrites — every file reports created or kept.",
+    code: `peira init          # bed.json, intent/example.md, AGENTS.md (+ CLAUDE.md import), cases/
+peira init --ci     # …plus a zero-LLM GitHub Actions workflow`,
+    codeLang: "bash",
+    note: "The next two steps then reduce to: point bed.json at your service, and replace the example intent with your service's real promises — or just tell your agent what the service promises; AGENTS.md briefs it.",
+  },
+  {
+    num: "02",
     title: "Describe your service — bed.json",
     body: "The bed config is the only place Peira learns anything about your service. Everything except baseUrl is optional: users are named principals cases refer to as $users.alice (never raw credentials); reset is one HTTP call before each run pointed at your service's own wipe-state endpoint; drain tells the runner how to ask your service whether an async job has settled, so one case's leftovers can never poison the next case's timing; timeouts declares a slow environment's latency envelope (ceilings only — hitting one is an error verdict, never a fail).",
     code: `{
@@ -33,7 +41,7 @@ export const gettingStarted: readonly DocStep[] = [
     note: "Keep one bed file per environment (bed.json, bed.ci.json): same cases, different target.",
   },
   {
-    num: "02",
+    num: "03",
     title: "Write intent — intent/*.md",
     body: "Intent is the human-owned source of truth: plain markdown, one ## section per acceptance criterion or invariant. Tags are optional but recommended — the id is a permanent lineage anchor, so a tagged section can be reworded freely without orphaning its cases. kind=invariant sections compile to templates that mint fresh seeded probes every run. Organize files by capability, not endpoint: the section is the unit of everything.",
     code: `## Creating an order
@@ -47,14 +55,14 @@ For all orders o, for all users u ≠ owner(o): GET /orders/{o} as u → 403.`,
     note: "Already have a messy test plan? peira adopt restructures it once — never rewrites — and prints a content-preservation report. You review and commit; from then on it is your document.",
   },
   {
-    num: "03",
+    num: "04",
     title: "Compile",
     body: "Runs on your Claude session. Every candidate case passes the same schema gate as a hand-written one; lineage is stamped mechanically; the compile manifest accounts for every section (compiled / skipped-with-reason / refused). Review the generated cases as a diff — that review is the human checkpoint the trust model is built on.",
     code: "peira compile intent --out cases --bed bed.json",
     codeLang: "bash",
   },
   {
-    num: "04",
+    num: "05",
     title: "Run locally — and close the loop",
     body: "Verdicts are pass | fail | error — assertion failures and infrastructure failures are never conflated. The seed is always printed: any failure reproduces exactly with the same seed against the same service state. First runs usually surface both real bugs and stale intent — that's the point.",
     code: `peira run cases --bed bed.json --seed 42 --evidence run.jsonl
@@ -69,7 +77,7 @@ peira compile intent --out cases --bed bed.json --section <changed-section>`,
     note: "Watch mode maps changes by lineage, not an import graph: a case edit re-runs exactly that case; an intent edit re-checks staleness and names the affected cases — recompiling stays your call, never an LLM on a save hook. And share readable documentation any time: peira render cases --intent intent --evidence run.jsonl (Given/When/Then, or a full HTML run report; one-way output — regenerate, never edit).",
   },
   {
-    num: "05",
+    num: "06",
     title: "CI — zero LLM",
     body: "Commit intent/, cases/, and the bed configs. CI needs no key and no session; the exit code gates the merge, and --junit writes standard JUnit XML (pass/fail/error map to testcase/failure/error) so any CI test-report UI renders the run without wrapper scripts. When CI goes red, pull the evidence artifact and triage it locally — adjudication stays a human act, never a bot in the pipeline.",
     code: `# .github/workflows/api-tests.yml
