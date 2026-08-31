@@ -16,6 +16,7 @@ export const gettingStarted: readonly DocStep[] = [
     body: "Node ≥ 18, one first-party dependency — no third-party code on the trust path. Running, validating, and rendering need nothing else, ever. Only the authoring commands (compile, adopt) and offline triage use a model, and they shell out to your own logged-in Claude Code CLI session: no API key to provision, nothing in CI.",
     code: "npm install -g peira",
     codeLang: "bash",
+    note: "Then scaffold the project with peira init (--ci adds a zero-LLM GitHub Actions workflow): bed.json, an example intent, and AGENTS.md — the cross-tool agent instructions Claude, Cursor, and Copilot-style agents read, with a CLAUDE.md import for Claude Code. Deterministic, never overwrites.",
   },
   {
     num: "01",
@@ -91,6 +92,7 @@ export interface CliCommand {
 }
 
 export const cliCommands: readonly CliCommand[] = [
+  { name: "init", synopsis: "peira init [dir] [--ci]", description: "Scaffold a project: bed.json, example intent, AGENTS.md agent instructions (+ CLAUDE.md import), cases/. --ci adds a zero-LLM GitHub Actions workflow. Deterministic, zero prompts, never overwrites." },
   { name: "validate", synopsis: "peira validate [casesDir] [--bed <path>] [--intent <dir>]", description: "Schema + static checks on every case; with --intent also flags stale cases and lints intent structure." },
   { name: "run", synopsis: "peira run [casesDir] --bed <path> [--seed <n>] [--evidence <path>] [--only <id>]… [--grep <substr>] [--parallel <n>] [--junit <path>] [--shard <i>/<n>] [--watch]", description: "The deterministic runner. Zero LLM; seeded, reproducible; writes evidence JSONL with credentials redacted at write time. --only/--grep re-run just the cases you name; --parallel runs a worker pool with verdicts and evidence order identical to serial; --junit emits CI-standard XML; --shard fans out across machines in disjoint deterministic slices; --watch re-runs on change, mapped by lineage." },
   { name: "compile", synopsis: "peira compile [intentDir] --out <dir> [--bed <path>] [--section <id>]…", description: "Intent sections → schema-gated JSON cases via your own Claude session. --section recompiles exactly the named sections and merges the manifest." },
@@ -176,7 +178,7 @@ export const agentLoop: readonly AgentExchange[] = [
   },
 ] as const;
 
-export const agentClaudeMd = `# CLAUDE.md — API testing with Peira
+export const agentClaudeMd = `# API testing with Peira
 
 - Tests are compiled from intent/*.md. NEVER edit cases/*.json by hand —
   edit the intent section, then recompile exactly that section:

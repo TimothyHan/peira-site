@@ -112,8 +112,11 @@ export default function DocsPage() {
 
         <h3 className="mt-10 text-lg font-semibold">Drop-in agent instructions</h3>
         <p className="mt-2 text-sm leading-[1.8] text-foreground/75">
-          Put this in your project&rsquo;s <code className="font-mono text-[13px]">CLAUDE.md</code>{" "}
-          (or your agent&rsquo;s equivalent) and the workflow above is what you get:
+          <code className="font-mono text-[13px]">peira init</code> scaffolds this as{" "}
+          <code className="font-mono text-[13px]">AGENTS.md</code> — the cross-tool convention
+          Claude, Cursor, and Copilot-style agents read, with a{" "}
+          <code className="font-mono text-[13px]">CLAUDE.md</code> import for Claude Code — and
+          the workflow above is what you get:
         </p>
         <div className="mt-4">
           <CodeBlock code={agentClaudeMd} />
@@ -134,7 +137,7 @@ export default function DocsPage() {
       <section id="cli" className="pt-16">
         <h2 className="text-2xl md:text-3xl">CLI reference</h2>
         <p className="mt-3 text-sm leading-[1.8] text-foreground/75">
-          Nine commands. Only <code className="font-mono text-[13px]">compile</code>,{" "}
+          Ten commands. Only <code className="font-mono text-[13px]">compile</code>,{" "}
           <code className="font-mono text-[13px]">triage</code>, and{" "}
           <code className="font-mono text-[13px]">adopt</code> ever touch a model — on your own
           session, never in CI.
