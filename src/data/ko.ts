@@ -14,8 +14,12 @@ import type { CliCommand, DocStep, RefGroup } from "./docs";
 import { url, type NavItem } from "./site";
 
 export const heroKo = {
-  eyebrow: "peira · ai-native api testing",
-  headlineClaim: "당신의 테스트 계획이",
+  // The only eyebrow on the Korean side that is prose rather than a literal command, flag,
+  // or evidence-log line — so it is the only one that translates.
+  eyebrow: "peira · AI 네이티브 API 테스팅",
+  // Explicit split: keep-all still breaks after "테스트", giving "당신의 테스트 / 계획이" and
+  // splitting the noun phrase. The 어절 rhythm wants 당신의 / 테스트 계획이.
+  headlineClaimLines: ["당신의", "테스트 계획이"],
   headlineTested: "컴파일됩니다.",
   headlineQuiet: "실행은 결정론적 러너가 합니다.",
   installCommand: "npm install -g peira",

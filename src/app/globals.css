@@ -174,3 +174,10 @@ body {
 .ko-root code {
   font-family: var(--font-mono-face), var(--font-body-kr), ui-monospace, monospace;
 }
+/* Eyebrows name their own mono face, so they need the Korean fallback too. The Latin
+   tracking (0.14em) pushes Hangul syllables apart into unreadable rubble — Hangul is
+   already square and evenly spaced, so it needs far less. */
+.site-theme .ko-root .eyebrow {
+  font-family: var(--font-mono-face), var(--font-body-kr), ui-monospace, monospace;
+  letter-spacing: 0.06em;
+}
