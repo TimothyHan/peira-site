@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { gettingStarted, cliCommands, caseAnatomy, agentLoop, agentClaudeMd, agentGuarantees } from "@/data/docs";
+import { gettingStarted, cliCommands, caseAnatomy, agentLoop, agentClaudeMd, agentGuarantees, reference, referenceLede } from "@/data/docs";
 import { InstallCommand } from "@/components/ui/install-command";
 import { hero } from "@/data/hero";
 
@@ -36,6 +36,7 @@ export default function DocsPage() {
           <a href="#agents" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">with-your-agent</a>
           <a href="#cli" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">cli-reference</a>
           <a href="#anatomy" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">case-anatomy</a>
+          <a href="#reference" className="text-muted-foreground underline decoration-border underline-offset-4 hover:text-foreground">reference</a>
         </nav>
       </div>
 
@@ -183,6 +184,32 @@ export default function DocsPage() {
         </p>
       </section>
 
+      {/* reference — the complete closed surface, finite by design */}
+      <section id="reference" className="pt-16">
+        <h2 className="text-2xl md:text-3xl">Reference</h2>
+        <p className="mt-3 text-sm leading-[1.8] text-foreground/75">{referenceLede}</p>
+        <div className="mt-8 space-y-10">
+          {reference.map((group) => (
+            <div key={group.title}>
+              <h3 className="text-lg font-semibold">{group.title}</h3>
+              {group.intro && (
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{group.intro}</p>
+              )}
+              <dl className="mt-4 space-y-3">
+                {group.entries.map((entry) => (
+                  <div key={entry.term} className="grid gap-1 sm:grid-cols-[11rem_1fr] sm:gap-4">
+                    <dt className="break-words font-mono text-[13px] font-semibold text-pass">{entry.term}</dt>
+                    <dd className="text-sm leading-relaxed text-foreground/75">{entry.note}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          ))}
+        </div>
+        <p className="mt-8 border-t border-border pt-5 font-mono text-xs text-muted-foreground">
+          authority: schema/case.schema.json · full document: docs/REFERENCE.md in the repo
+        </p>
+      </section>
     </div>
   );
 }

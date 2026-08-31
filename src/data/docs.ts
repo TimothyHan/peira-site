@@ -146,6 +146,95 @@ export const caseAnatomy = {
   ] as readonly AnatomyNote[],
 } as const;
 
+// Reference — the complete programmable surface. Finite BECAUSE the DSL is closed:
+// anything not listed is refused by the schema gate. Mirrors docs/REFERENCE.md in the
+// peira repo; schema/case.schema.json is the authority.
+export interface RefEntry {
+  term: string;
+  note: string;
+}
+
+export interface RefGroup {
+  title: string;
+  intro?: string;
+  entries: readonly RefEntry[];
+}
+
+export const referenceLede =
+  "The complete programmable surface, on one page — finite because the DSL is deliberately closed. Anything not listed here is refused by the schema gate; the vocabulary grows by amendment (evidenced by stats telemetry), never by extension hooks.";
+
+export const reference: readonly RefGroup[] = [
+  {
+    title: "The case",
+    intro: "One JSON file. id, from, and test are required.",
+    entries: [
+      { term: "id", note: "CASE-<kebab-slug> — unique across the set; duplicates are refused." },
+      { term: "from", note: "Lineage {intent, hash}: which section, at which content hash, produced this case. Stamped mechanically, never trusted from the model; a mismatched hash flags the case stale. Minted instances add {template, seed, instance}." },
+      { term: "setup", note: "Optional array of steps — request steps or registry-step invocations — run in order." },
+      { term: "test", note: "Exactly one request step; the claim under test lives here." },
+      { term: "teardown", note: "{\"drain\": true} — after the verdict, every captured id is polled to a terminal state via the bed's drain probe, under the credentials that captured it." },
+    ],
+  },
+  {
+    title: "A request step",
+    entries: [
+      { term: "request", note: "method (get | post | put | delete | patch), route (starts with /), optional query and body. auth takes three forms: \"$users.<alias>\", a literal {username, password} for negative auth tests, or absent for anonymous." },
+      { term: "capture", note: "alias → dotted response path rooted at status, body, or headers (body.id, headers.location). A path missing from the response fails the case, naming the path." },
+      { term: "pollUntil", note: "Re-issues the request until an expect block matches — pinned 100ms interval, timeoutMs ceiling (default 10s or the bed's pollUntilMs). Non-convergence is a fail. The declarative replacement for sleeps, which are refused." },
+    ],
+  },
+  {
+    title: "expect — the oracle",
+    intro: "Subset matching, Jest toMatchObject parity: objects as subsets at every level, arrays index-wise with equal length, primitives strictly.",
+    entries: [
+      { term: "status", note: "Exact status code." },
+      { term: "headers", note: "Response headers by name, case-insensitive (RFC 9110); values are a literal string or a matcher, nothing else. A missing header is a named diff." },
+      { term: "body", note: "Subset match against the JSON body." },
+      { term: "bodySchema", note: "A JSON-Schema subset the whole body must satisfy (type, required, properties, additionalProperties, enum, items, pattern, anyOf) — for \"every element has shape X\" claims." },
+      { term: "{\"$any\": …}", note: "Matcher: present, of type \"string\" | \"number\" | \"boolean\"." },
+      { term: "{\"$contains\": …}", note: "Matcher: a string containing the substring — the content-type matcher." },
+      { term: "null", note: "Matcher: present and exactly null. Matchers stand alone and work in body, pollUntil.until, and header values. No custom matchers, by design — the vocabulary grows by amendment." },
+    ],
+  },
+  {
+    title: "Interpolation",
+    entries: [
+      { term: "\"$alias\"", note: "A string that IS the reference resolves to the captured value, type-preserving." },
+      { term: "{{alias}}", note: "Inside any string, at any depth: String(value) spliced in. {{{{ escapes a literal {{." },
+      { term: "unique.<key>", note: "Seed-derived discriminator: hash(seed, caseId, key). Same seed → same value; no fixture files." },
+      { term: "$users.<alias>", note: "A bed principal — legal only in a request's auth position, never spliced into data." },
+    ],
+  },
+  {
+    title: "The bed — bed.json",
+    intro: "The only place Peira learns about your service. Everything except baseUrl is optional.",
+    entries: [
+      { term: "baseUrl", note: "Where the service answers; --base-url overrides per invocation." },
+      { term: "users", note: "Named principals for basic auth — cases say $users.alice, never credentials." },
+      { term: "reset", note: "{url, method?} — one wipe-state call before each run." },
+      { term: "drain", note: "{route, idParam, statusPath, terminal[]} — how to ask whether an async job settled; powers teardown.drain." },
+      { term: "timeouts", note: "Latency-envelope ceilings {requestMs?, pollUntilMs?, drainMs?, stepMs?}. Hitting one is an error, never a fail; the poll interval stays pinned for determinism." },
+      { term: "service", note: "{command, cwd?, readyMs?, reuse?} — how peira run starts the app under test. reuse (default) adopts an already-answering baseUrl and never kills it; a server Peira started is killed, whole process group, when the run ends." },
+    ],
+  },
+  {
+    title: "Verdicts, exit codes, evidence",
+    entries: [
+      { term: "pass | fail | error", note: "fail = an assertion did not hold; error = infrastructure failed before an assertion could be judged. Never conflated — and --junit maps them to testcase/failure/error losslessly." },
+      { term: "exit codes", note: "0 all pass · 1 any fail/error (or the set was refused, or the service never answered) · 2 usage error." },
+      { term: "run.jsonl", note: "Append-only JSONL, one event per line: run-start, minted, case-start, http (every exchange, request + response + elapsedMs), step, case-verdict, drain-*, run-end (counts, wallMs, httpMs). This is the integration surface — triage, the ledger, and reports all read it." },
+      { term: "redaction", note: "Authorization, Cookie, and Set-Cookie values are stored as [REDACTED:<sha256-prefix>] at write time — equality across events survives, secrets never land in the log." },
+    ],
+  },
+  {
+    title: "The escape hatch, and templates",
+    entries: [
+      { term: "steps", note: "Generated procedure with a typed contract: {id, reads[], produces[], code}. Invoked in setup only as {\"step\": \"STEP-…\", \"bind\": {…}} — invocations structurally cannot carry expect or capture; the claim stays declarative. Every use is telemetry asking which primitive the DSL is missing." },
+      { term: "holes", note: "Invariant templates declare typed holes — principal (optionally distinctFrom another), expression ({{holes.x.code}} / {{holes.x.result}}), unique — and mint 5 fresh seeded cases per run. (template, seed, instance) reproduces any of them exactly." },
+    ],
+  },
+] as const;
+
 // "Using Peira through your agent" — Peira is agent-native by design: the
 // authoring surfaces already run on the author's own Claude session, and the
 // deterministic runner is what makes agent-driven testing trustworthy.
