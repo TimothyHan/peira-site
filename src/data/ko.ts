@@ -281,7 +281,7 @@ export const triageKindsKo: readonly TriageKind[] = [
 
 export const ledgerCopyKo = {
   eyebrow: "case-verdict → applied | contradicted",
-  heading: "인텐트 섹션은 정직한 방법으로만 신뢰를 얻습니다: 실행을 거듭하며.",
+  heading: "증거 원장",
   body: "판단이 끝난 실행은 peira evidence로 기록하고, 현황은 peira trust로 읽습니다. 통과한 섹션은 applied를 남기고 — 트리아지된 버그도 마찬가지입니다. 위반을 잡아내는 제 몫을 했기 때문입니다. 판단이 끝난 drift는 사유가 그대로 인용된 채 contradicted를 남기고, 판단되지 않은 잡음은 아무것도 남기지 않습니다.",
 } as const;
 
@@ -581,20 +581,20 @@ export const heroTerminalKo: TermLine[] = [
 export const featureCopyKo = {
   render: {
     eyebrow: "peira render",
-    headClaim: "diff로 볼 만큼 선언적이고,",
-    headQuiet: "검토할 만큼 읽힙니다.",
+    headClaim: "읽을 수 있는 산출물",
+    headQuiet: "",
     lede: "케이스는 부분 일치 의미론을 가진 JSON입니다. 명령 하나면 같은 케이스가 Given/When/Then이 되거나 — 실패마다 관찰된 요청/응답 로그가 붙은 완전한 시각적 HTML 실행 리포트가 됩니다.",
   },
   seed: {
     eyebrow: "--seed 42",
-    headClaim: "테스트 데이터는 공식으로,",
-    headQuiet: "픽스처 파일이 아니라.",
+    headClaim: "시드 기반 테스트 데이터",
+    headQuiet: "",
     lede: "시드는 그 실행의 재생 번호입니다. 모든 “랜덤” 값은 hash(seed, case id, key)입니다 — 순수 함수이고, 저장되는 것은 없습니다. 같은 시드, 같은 서비스 상태 → 같은 판정. 어떤 실패든 그대로 재현됩니다.",
   },
   triage: {
     eyebrow: "peira triage",
-    headClaim: "빨간 빌드는 질문입니다.",
-    headQuiet: "트리아지가 답의 초안을 씁니다.",
+    headClaim: "실패 트리아지",
+    headQuiet: "",
     lede: "인프라 오류는 모델이 보기 전에 걸러집니다 — 닿지 않는 환경을 제품 버그로 오독하는 일이 구조적으로 불가능합니다. 남은 것은 케이스가 아니라 인텐트 문장을 기준으로 판단됩니다.",
   },
 } as const;

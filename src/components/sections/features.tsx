@@ -21,7 +21,7 @@ export function FeaturesSection({ locale = "en" }: { locale?: Locale }) {
           <ScrollAnimate>
             <p className="eyebrow">{f ? f.render.eyebrow : "peira render"}</p>
             <h2 className="mt-4 text-3xl md:text-5xl">
-              {f ? f.render.headClaim : "Declarative enough to diff."} <span className="headline-quiet">{f ? f.render.headQuiet : "Readable enough to review."}</span>
+              {f ? f.render.headClaim : "Readable output"}{(f ? f.render.headQuiet : "") ? <> <span className="headline-quiet">{f ? f.render.headQuiet : ""}</span></> : null}
             </h2>
             <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
               {f ? f.render.lede : ENGLISH_RENDER}
@@ -55,7 +55,7 @@ export function FeaturesSection({ locale = "en" }: { locale?: Locale }) {
           <ScrollAnimate className="lg:order-2">
             <p className="eyebrow">{f ? f.seed.eyebrow : "--seed 42"}</p>
             <h2 className="mt-4 text-3xl md:text-5xl">
-              {f ? f.seed.headClaim : "Test data by formula,"} <span className="headline-quiet">{f ? f.seed.headQuiet : "not fixture file."}</span>
+              {f ? f.seed.headClaim : "Seeded test data"}{(f ? f.seed.headQuiet : "") ? <> <span className="headline-quiet">{f ? f.seed.headQuiet : ""}</span></> : null}
             </h2>
             <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
               {f ? f.seed.lede : ENGLISH_SEED}
@@ -71,7 +71,7 @@ export function FeaturesSection({ locale = "en" }: { locale?: Locale }) {
           <ScrollAnimate>
             <p className="eyebrow">{f ? f.triage.eyebrow : "peira triage"}</p>
             <h2 className="mt-4 max-w-3xl text-3xl md:text-5xl">
-              {f ? f.triage.headClaim : "A red build is a question."} <span className="headline-quiet">{f ? f.triage.headQuiet : "Triage drafts the answer."}</span>
+              {f ? f.triage.headClaim : "Failure triage"}{(f ? f.triage.headQuiet : "") ? <> <span className="headline-quiet">{f ? f.triage.headQuiet : ""}</span></> : null}
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               {f ? f.triage.lede : ENGLISH_TRIAGE}

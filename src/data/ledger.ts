@@ -17,6 +17,6 @@ export const ledgerRows: readonly LedgerRow[] = [
 
 export const ledgerCopy = {
   eyebrow: "case-verdict → applied | contradicted",
-  heading: "Intent sections earn trust the only honest way: run by run.",
+  heading: "Evidence ledger",
   body: "Record an adjudicated run with peira evidence; read the standings with peira trust. A passing section logs applied — and so does a triaged bug, because the section did its job catching the violation. Adjudicated drift logs contradicted, with the reason quoted verbatim. Unadjudicated noise logs nothing.",
 } as const;
