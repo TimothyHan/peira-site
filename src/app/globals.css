@@ -119,6 +119,8 @@
 .site-theme .chip-pass { background: var(--verdict-pass); }
 .site-theme .chip-fail { background: var(--verdict-fail); }
 .site-theme .chip-error { background: var(--verdict-error); }
+/* flake = "can't conclude yet": neutral, never a verdict color — green would read as good news */
+.site-theme .chip-neutral { background: var(--muted-foreground); }
 
 /* Hover vocabulary: hairline brightens, ~80ms; no lifts, no shadows */
 .site-theme .hover-hairline {

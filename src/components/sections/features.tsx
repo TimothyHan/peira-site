@@ -79,7 +79,7 @@ export function FeaturesSection() {
             {triageKinds.map((kind, i) => (
               <ScrollAnimate key={kind.chip} delay={i * 0.07} className="h-full">
                 <div className="h-full rounded border border-border bg-card p-6">
-                  <span className={`chip chip-${kind.chip === "bug" ? "fail" : kind.chip === "drift" ? "error" : "pass"}`}>
+                  <span className={`chip chip-${kind.chip === "bug" ? "fail" : kind.chip === "drift" ? "error" : "neutral"}`}>
                     {kind.chip.toUpperCase()}
                   </span>
                   <h3 className="mt-4 text-lg font-semibold">{kind.title}</h3>
