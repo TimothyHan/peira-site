@@ -45,7 +45,9 @@ export const sections: Record<Locale, SectionSet> = {
       eyebrow: "evidence · docs/findings/",
       headClaim: "측정값",
       headQuiet: "",
-      lede: "Peira의 베드는 실제 운영 테스트 대상을 충실히 재구현한 것이며, 그 서비스의 원래 27개 손으로 쓴 명세도 함께 있습니다 — 정직하게 견줄 기준선입니다.",
+      // Gloss the name once per page, at its first appearance in prose. Greek πεῖρα
+      // ("trial") — the reader has no way to guess how to say it otherwise.
+      lede: "Peira(피라)의 베드는 실제 운영 테스트 대상을 충실히 재구현한 것이며, 그 서비스의 원래 27개 손으로 쓴 명세도 함께 있습니다 — 정직하게 견줄 기준선입니다.",
     },
     loop: {
       eyebrow: "run-start · the loop",

@@ -497,7 +497,7 @@ export const referenceKo: readonly RefGroup[] = [
 export const docsPageKo = {
   eyebrow: "docs · zero → ci",
   title: "개발자 문서",
-  lede: "0에서 초록 파이프라인까지의 여정, 에이전트로 구동하는 법 — Peira를 쓰는 기본 방식입니다 —, 전체 CLI, 그리고 컴파일된 케이스의 실제 모습. 아래 모든 것은 실제입니다: 명령도, 플래그도, 출력 형태도 마케팅이 아니라 도구에서 나왔습니다.",
+  lede: "0에서 초록 파이프라인까지의 여정, 에이전트로 구동하는 법 — Peira(피라)를 쓰는 기본 방식입니다 —, 전체 CLI, 그리고 컴파일된 케이스의 실제 모습. 아래 모든 것은 실제입니다: 명령도, 플래그도, 출력 형태도 마케팅이 아니라 도구에서 나왔습니다.",
   navLabels: { gettingStarted: "시작하기", agents: "에이전트와 함께", cli: "CLI 레퍼런스", anatomy: "케이스 해부", reference: "레퍼런스" },
   gettingStartedTitle: "시작하기",
   agentsTitle: "에이전트로 Peira 쓰기",
