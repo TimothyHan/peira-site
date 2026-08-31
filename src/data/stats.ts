@@ -1,5 +1,6 @@
-// "Measured, not promised" — every number was earned against a real service
-// and is recorded in the peira repo's docs/findings/.
+// "Measured, not promised" — every number was earned against a real service.
+// The performance figures reproduce from the repo with `npm run bench`; the
+// rest come from recorded gate experiments.
 export interface Stat {
   value: string;
   label: string;
