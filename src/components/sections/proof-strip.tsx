@@ -2,15 +2,14 @@ import { ScrollAnimate } from "@/components/scroll-animate";
 import { stats } from "@/data/stats";
 
 // Section 2 · prove — proof-strip (numerical variant, per patterns.md):
-// replaces the archetype's logo wall/testimonials; every numeral was earned
-// against a real service and is reproducible from the repo. Hairline-divided
-// grid, bun-style.
+// replaces the archetype's logo wall/testimonials; every numeral traces to
+// docs/findings/ in the peira repo. Hairline-divided grid, bun-style.
 export function ProofStripSection() {
   return (
     <section id="measured" className="bg-muted/30 py-20 md:py-28 lg:py-32">
       <div className="container mx-auto max-w-6xl px-4">
         <ScrollAnimate>
-          <p className="eyebrow">run-end · the evidence</p>
+          <p className="eyebrow">evidence · docs/findings/</p>
           <h2 className="mt-4 text-3xl md:text-5xl">
             Measured, <span className="headline-quiet">not promised.</span>
           </h2>
