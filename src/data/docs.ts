@@ -35,7 +35,8 @@ peira init --ci     # …plus a zero-LLM GitHub Actions workflow`,
   "users": { "alice": { "username": "alice", "password": "test-pw" } },
   "reset": { "method": "post", "url": "/test/reset" },
   "drain": { "route": "/orders/status", "idParam": "id",
-             "statusPath": "body.state", "terminal": ["SHIPPED", "CANCELLED"] }
+             "statusPath": "body.state", "terminal": ["SHIPPED", "CANCELLED"] },
+  "service": { "command": "npm run dev", "cwd": "../orders-service" }
 }`,
     codeLang: "json",
     note: "Keep one bed file per environment (bed.json, bed.ci.json): same cases, different target.",
