@@ -36,8 +36,18 @@ export const stats: readonly Stat[] = [
     detail: "bug-vs-drift across 33 pre-registered behavior shifts; zero schema refusals or injections",
   },
   {
-    value: "231",
+    value: "254",
     label: "tests on the tool itself",
-    detail: "run against the exact compiled artifact that ships — strict TypeScript throughout",
+    detail: "run against the exact compiled artifact that ships — strict TypeScript, Linux and Windows in CI",
+  },
+  {
+    value: "57ms",
+    label: "to the first verdict",
+    detail: "boot, load and validate the whole suite, issue a real request, report — no transform pipeline, no JVM, no browser",
+  },
+  {
+    value: "0.17ms",
+    label: "tool overhead per case",
+    detail: "measured, not claimed (npm run bench) — what you wait for is your service, not the runner",
   },
 ] as const;
