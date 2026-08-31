@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton, Geist, Geist_Mono, Black_Han_Sans, Noto_Sans_KR } from "next/font/google";
+import { Anton, Geist, Geist_Mono, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -20,19 +20,18 @@ const mono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Korean faces. Anton and Geist carry no Hangul, so Korean text would silently fall back to
-// whatever the OS provides and lose the design. Black Han Sans is the closest Korean analogue
-// to Anton's heavy condensed display weight; Noto Sans KR carries the body.
-const headingKr = Black_Han_Sans({
-  variable: "--font-heading-kr",
-  subsets: ["latin"],
-  weight: "400",
-});
-
+// Korean face. Anton and Geist carry no Hangul, so Korean text would silently fall back to
+// whatever the OS provides and lose the design.
+//
+// One family across the whole Korean page, by weight. Black Han Sans was the first choice as
+// the closest analogue to Anton's poster weight, but it is a display face that needs size:
+// at section-heading scale the strokes merge and Hangul becomes genuinely hard to read.
+// Noto Sans KR at 800 keeps the heading impact while staying legible at every size the page
+// actually uses.
 const bodyKr = Noto_Sans_KR({
   variable: "--font-body-kr",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "800"],
 });
 
 export const metadata: Metadata = {
@@ -44,7 +43,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${heading.variable} ${body.variable} ${mono.variable} ${headingKr.variable} ${bodyKr.variable} antialiased`}>
+      <body className={`${heading.variable} ${body.variable} ${mono.variable} ${bodyKr.variable} antialiased`}>
         <div className="site-theme flex min-h-screen flex-col">
           <a
             href="#main"

@@ -150,10 +150,19 @@ body {
 .ko-root {
   font-family: var(--font-body-kr), var(--font-body), system-ui, sans-serif;
 }
+/* Display weight for H1/H2 ONLY — the same rule the Latin side follows. h3/h4 stay at body
+   weight; a poster face at 18px is what makes Hangul hard to read. */
 .site-theme .ko-root h1,
-.site-theme .ko-root h2,
-.site-theme .ko-root h3 {
-  font-family: var(--font-heading-kr), var(--font-heading), system-ui, sans-serif;
+.site-theme .ko-root h2 {
+  font-family: var(--font-body-kr), var(--font-heading), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.site-theme .ko-root h3,
+.site-theme .ko-root h4 {
+  font-family: var(--font-body-kr), var(--font-body), system-ui, sans-serif;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 .ko-root .font-mono,
