@@ -22,9 +22,9 @@ export const sections: Record<Locale, SectionSet> = {
   en: {
     proof: {
       eyebrow: "evidence · docs/findings/",
-      headClaim: "Quick metrics",
+      headClaim: "Metrics",
       headQuiet: "",
-      lede: "Peira’s bed is a faithful re-implementation of a real production test target, plus its original 27-spec hand-written suite — a baseline to compare against, honestly.",
+      lede: "The bed in this repo re-implements a service as a test fixture. The 27 hand-written specs it ships with are the originals — written years earlier, for the service it re-implements.",
     },
     loop: {
       eyebrow: "run-start · the loop",
@@ -43,11 +43,11 @@ export const sections: Record<Locale, SectionSet> = {
   ko: {
     proof: {
       eyebrow: "evidence · docs/findings/",
-      headClaim: "측정값",
+      headClaim: "지표",
       headQuiet: "",
       // Gloss the name once per page, at its first appearance in prose. Greek πεῖρα
       // ("trial") — the reader has no way to guess how to say it otherwise.
-      lede: "Peira(피라)의 베드는 실제 운영 테스트 대상을 충실히 재구현한 것이며, 그 서비스의 원래 27개 손으로 쓴 명세도 함께 있습니다 — 정직하게 견줄 기준선입니다.",
+      lede: "Peira(피라)의 베드는 어떤 서비스를 테스트 픽스처로 재구현한 것입니다. 함께 들어 있는 27개의 손으로 쓴 명세는 원본으로, 그 서비스를 위해 수년 전에 작성된 것입니다.",
     },
     loop: {
       eyebrow: "run-start · the loop",

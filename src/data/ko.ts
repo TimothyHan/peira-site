@@ -28,9 +28,9 @@ export const heroKo = {
 } as const;
 
 export const heroLedeKo = {
-  before: "인텐트 컴파일러, 결정론적 러너, 실패 트리아지, 증거 원장을 하나의 CLI로 제공합니다. ",
+  before: "당신의 API가 무엇을 하기로 했는지 평범한 마크다운으로 적으면, Peira가 그것을 테스트 케이스로 만들고 실행합니다. ",
   middle: " 과 ",
-  after: " 을 어떤 REST API에도 실행하세요 — 설정은 URL 하나로 충분합니다.",
+  after: " 을 어떤 REST API에든 겨누세요 — 설정은 URL 하나로 충분합니다.",
 } as const;
 
 export const statsKo: readonly Stat[] = [
@@ -43,7 +43,7 @@ export const statsKo: readonly Stat[] = [
   {
     value: "27/27",
     label: "레거시 명세 재표현",
-    detail: "실제 서비스의 손으로 쓴 스위트를 다섯 개 프리미티브로 — 이스케이프 해치 0, sleep 0",
+    detail: "원래의 손으로 쓴 스위트를 request, capture, expect로 재표현했습니다 — 별도 코드로 빠진 적 0회, sleep 0",
   },
   {
     value: "3",
@@ -58,10 +58,10 @@ export const statsKo: readonly Stat[] = [
   {
     value: "87.9%",
     label: "트리아지 일치율",
-    detail: "사전 등록된 33개 동작 변화에 대한 bug/drift 판정; 스키마 거부와 인젝션은 0건",
+    detail: "미리 심어 둔 33개 동작 변화에 대한 bug/drift 판정; 스키마 거부와 인젝션은 0건",
   },
   {
-    value: "254",
+    value: "258",
     label: "도구 자체의 테스트",
     detail: "실제로 배포되는 컴파일 산출물을 대상으로 실행 — 엄격한 TypeScript, CI는 Linux와 Windows",
   },
@@ -88,7 +88,7 @@ export const loopStagesKo: readonly LoopStage[] = [
   {
     num: "02",
     title: "컴파일",
-    body: "섹션은 당신의 Claude 세션을 통해 JSON 케이스가 됩니다. 결정론적 게이트가 형식이 어긋난 것을 거부하고, 계보는 기계적으로 각인됩니다.",
+    body: "섹션은 당신의 Claude 세션을 통해 JSON 케이스가 됩니다. 결정론적 게이트가 형식이 어긋난 것을 거부하며, 어느 인텐트 섹션에서 왔는지는 모델이 아니라 도구가 기록합니다.",
     actor: "llm",
     actorLabel: "LLM · 게이트 통과",
   },
@@ -117,7 +117,7 @@ export const loopStagesKo: readonly LoopStage[] = [
 
 export const paradigmKo: readonly ParadigmRow[] = [
   { before: "사람이 테스트 코드를 손으로 씁니다", after: "사람은 인텐트를 씁니다 — 평범한 마크다운, 섹션 하나에 약속 하나" },
-  { before: "테스트 코드가 명세에서 소리 없이 멀어집니다", after: "케이스가 계보를 지니고, 낡은 것은 표시되어 재컴파일됩니다" },
+  { before: "테스트 코드가 명세에서 소리 없이 멀어집니다", after: "모든 케이스는 출처가 된 인텐트를 기록합니다 — 그 문장이 바뀌면 표시되어 재컴파일됩니다" },
   { before: "sleep과 재시도, 그리고 미덥지 않은 green", after: "시드 기반의 결정론적 판정 — 어떤 실패든 그대로 재현됩니다" },
   { before: "빨간 빌드는 원인부터 뒤져야 하는 일거리입니다", after: "실패가 bug | drift | flake로 분류되어 증거와 함께 돌아옵니다" },
 ] as const;
@@ -297,9 +297,12 @@ export const ctaCloseKo = {
     "v0.2입니다. 단일 AUT, REST 전용. UI 테스트, 부하 테스트, 목킹, 컨트랙트 브로커링은 명시적인 비목표입니다.",
 } as const;
 
+export const footerBlurbKo =
+  "AI-네이티브 API 테스팅 도구입니다. 실행은 pass, fail, error 중 하나로 돌아오며 — 단정이 성립하지 않은 것을 환경 장애로 기록하는 일은 없습니다.";
+
 export const navKo: readonly NavItem[] = [
   { label: "동작 원리", href: url("/ko/#loop") },
-  { label: "측정값", href: url("/ko/#measured") },
+  { label: "지표", href: url("/ko/#measured") },
   { label: "증거", href: url("/ko/#evidence") },
   { label: "문서", href: url("/ko/docs") },
   { label: "GitHub", href: "https://github.com/TimothyHan/peira", external: true },

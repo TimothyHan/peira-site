@@ -7,12 +7,20 @@ export interface TermLine {
   text: string;
 }
 
+// Split around the two inline /docs#cli links, mirroring heroLedeKo so hero.tsx reads both
+// locales from data. The English copy used to be hardcoded in the component, which is how it
+// drifted from this file in the first place.
+export const heroLede = {
+  before: "You write down what your API is supposed to do, in plain markdown. Peira turns that into test cases and runs them. Point ",
+  middle: " and ",
+  after: " at any REST API — the config can be one URL.",
+} as const;
+
 export const hero = {
   eyebrow: "peira (peer-uh) · ai-native api testing",
   headlineClaim: "Your test plan",
   headlineTested: "compiles.",
   headlineQuiet: "A deterministic runner executes it.",
-  lede: "Intent compiler, deterministic runner, failure triage, and evidence ledger in a single CLI. Use peira compile and peira run against any REST API — the config can be one URL.", // rendered with inline /docs#cli links in hero.tsx
   installCommand: "npm install -g peira",
   honesty: ["No API key", "No signup", "Zero LLM at runtime", "MIT"],
   secondaryCta: { label: "View on GitHub", href: "https://github.com/TimothyHan/peira" },

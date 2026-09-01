@@ -20,7 +20,7 @@ export const loopStages: readonly LoopStage[] = [
   {
     num: "02",
     title: "Compile",
-    body: "Sections become JSON cases via your own Claude session. A deterministic gate refuses anything malformed; lineage is stamped mechanically.",
+    body: "Sections become JSON cases via your own Claude session. A deterministic gate refuses anything malformed, and the link back to the intent section is recorded by the tool, not the model.",
     actor: "llm",
     actorLabel: "LLM · gated",
   },
@@ -55,7 +55,7 @@ export interface ParadigmRow {
 
 export const paradigm: readonly ParadigmRow[] = [
   { before: "Humans hand-write test code", after: "Humans write intent — plain markdown, one promise per section" },
-  { before: "Test code silently drifts from the spec", after: "Cases carry lineage; stale ones are flagged and recompiled" },
+  { before: "Test code silently drifts from the spec", after: "Every case records the intent it came from; when that text changes, the case is flagged and recompiled" },
   { before: "Sleeps, retries, and flaky green", after: "Seeded, deterministic verdicts — any failure replays exactly" },
   { before: "A red build is a chore to diagnose", after: "Failures come back triaged — bug | drift | flake — with evidence" },
 ] as const;

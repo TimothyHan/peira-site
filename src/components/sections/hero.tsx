@@ -1,7 +1,7 @@
 import { ScrollAnimate } from "@/components/scroll-animate";
 import { InstallCommand } from "@/components/ui/install-command";
 import { HeroTerminal } from "./hero-terminal";
-import { hero, heroTerminal } from "@/data/hero";
+import { hero, heroLede, heroTerminal } from "@/data/hero";
 import { heroKo, heroTerminalKo, heroLedeKo } from "@/data/ko";
 import type { Locale } from "@/data/sections";
 import { url } from "@/data/site";
@@ -11,6 +11,7 @@ import { url } from "@/data/site";
 export function HeroSection({ locale = "en" }: { locale?: Locale }) {
   const h = locale === "ko" ? heroKo : hero;
   const term = locale === "ko" ? heroTerminalKo : heroTerminal;
+  const lede = locale === "ko" ? heroLedeKo : heroLede;
   const docs = locale === "ko" ? url("/ko/docs#cli") : url("/docs#cli");
   return (
     <section className="bg-background py-20 md:py-28 lg:py-32">
@@ -42,15 +43,15 @@ export function HeroSection({ locale = "en" }: { locale?: Locale }) {
           </ScrollAnimate>
           <ScrollAnimate delay={0.2}>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              {locale === "ko" ? heroLedeKo.before : "Intent compiler, deterministic runner, failure triage, and evidence ledger in a single CLI. Use "}
+              {lede.before}
               <a href={docs} className="font-mono text-[0.9em] text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
                 peira compile
               </a>{" "}
-              {locale === "ko" ? heroLedeKo.middle : " and "}
+              {lede.middle}
               <a href={docs} className="font-mono text-[0.9em] text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground">
                 peira run
               </a>{" "}
-              {locale === "ko" ? heroLedeKo.after : " against any REST API — the config can be one URL."}
+              {lede.after}
             </p>
           </ScrollAnimate>
           <ScrollAnimate delay={0.3}>

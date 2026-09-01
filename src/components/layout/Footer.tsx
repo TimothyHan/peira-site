@@ -1,7 +1,16 @@
-import { companyInfo, nav, site } from "@/data/site";
+"use client";
 
-// Server component — no interactivity. Shares the same nav source as Header.
+import { usePathname } from "next/navigation";
+import { companyInfo, nav, site } from "@/data/site";
+import { navKo, footerBlurbKo } from "@/data/ko";
+
+// Client only so it can read the locale off the path, exactly as Header does. It lives in the
+// root layout, so a page-level prop cannot reach it — and rendering the English nav on /ko was
+// sending Korean readers back to the English tree.
 export function Footer() {
+  const pathname = usePathname() ?? "/";
+  const isKo = pathname.startsWith("/ko");
+  const items = isKo ? navKo : nav;
   return (
     <footer className="border-t border-border">
       <div className="container mx-auto max-w-6xl px-4 py-12">
@@ -11,12 +20,14 @@ export function Footer() {
               PEIRA<span className="text-pass">(✓)</span>
             </p>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              {site.tagline}. Verdicts are pass | fail | error — never conflated.
+              {isKo
+                ? footerBlurbKo
+                : `${site.tagline}. A run comes back pass, fail, or error — an assertion that did not hold is never filed as a broken environment.`}
             </p>
           </div>
           <div className="flex gap-14">
             <nav aria-label="Footer" className="flex flex-col gap-2">
-              {nav
+              {items
                 .filter((i) => !i.external)
                 .map((item) => (
                   <a

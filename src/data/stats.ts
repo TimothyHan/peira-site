@@ -1,5 +1,5 @@
-// "Measured, not promised" — every number was earned against a real service
-// and is recorded in the peira repo's docs/findings/.
+// Every number here was earned against the in-repo bed and is recorded in the peira
+// repo's docs/findings/. The bed is a test fixture; the specs it ships with are originals.
 export interface Stat {
   value: string;
   label: string;
@@ -18,7 +18,7 @@ export const stats: readonly Stat[] = [
   {
     value: "27/27",
     label: "legacy specs re-expressed",
-    detail: "a real service's hand-written suite, in five primitives — zero escape hatches, zero sleeps",
+    detail: "the original hand-written suite, re-expressed in request, capture and expect — without dropping to custom code once, and with no sleeps",
   },
   {
     value: "3",
@@ -33,10 +33,10 @@ export const stats: readonly Stat[] = [
   {
     value: "87.9%",
     label: "triage agreement",
-    detail: "bug-vs-drift across 33 pre-registered behavior shifts; zero schema refusals or injections",
+    detail: "bug-vs-drift across 33 behavior changes planted in advance; zero schema refusals or injections",
   },
   {
-    value: "254",
+    value: "258",
     label: "tests on the tool itself",
     detail: "run against the exact compiled artifact that ships — strict TypeScript, Linux and Windows in CI",
   },
