@@ -11,7 +11,7 @@ export interface TermLine {
 // locales from data. The English copy used to be hardcoded in the component, which is how it
 // drifted from this file in the first place.
 export const heroLede = {
-  before: "You write down what your API is supposed to do, in plain markdown. Peira turns that into test cases and runs them. Point ",
+  before: "Intent compiler, deterministic runner, failure triage, and evidence ledger in a single CLI. Point ",
   middle: " and ",
   after: " at any REST API — the config can be one URL.",
 } as const;

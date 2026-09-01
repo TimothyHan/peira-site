@@ -28,7 +28,7 @@ export const heroKo = {
 } as const;
 
 export const heroLedeKo = {
-  before: "당신의 API가 무엇을 하기로 했는지 평범한 마크다운으로 적으면, Peira가 그것을 테스트 케이스로 만들고 실행합니다. ",
+  before: "인텐트 컴파일러, 결정론적 러너, 실패 트리아지, 증거 원장을 하나의 CLI로 제공합니다. ",
   middle: " 과 ",
   after: " 을 어떤 REST API에든 겨누세요 — 설정은 URL 하나로 충분합니다.",
 } as const;
