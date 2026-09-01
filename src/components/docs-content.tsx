@@ -30,7 +30,7 @@ const SECTIONS_EN = [
 const EN = {
   eyebrow: "docs · zero → ci",
   title: "Developer docs",
-  lede: "The journey from zero to a green pipeline, how to drive it through your agent — the primary way to use Peira — the full CLI, and what a compiled case actually looks like. Everything below is real — commands, flags, and output shapes come from the tool, not from marketing.",
+  lede: "The journey from zero to a green pipeline, how to drive it through your agent — the primary way to use Peira (PEER-uh) — the full CLI, and what a compiled case actually looks like. Everything below is real — commands, flags, and output shapes come from the tool, not from marketing.",
   navLabels: { gettingStarted: "getting-started", agents: "with-your-agent", cli: "cli-reference", anatomy: "case-anatomy", reference: "reference" },
   gettingStartedTitle: "Getting started",
   agentsTitle: "Using Peira through your agent",
