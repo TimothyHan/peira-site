@@ -30,7 +30,7 @@ export const heroKo = {
 export const heroLedeKo = {
   before: "인텐트 컴파일러, 결정론적 러너, 실패 트리아지, 증거 원장을 하나의 CLI로 제공합니다. ",
   middle: " 과 ",
-  after: " 을 어떤 REST API에든 겨누세요 — 설정은 URL 하나로 충분합니다.",
+  after: " 을 어떤 REST API에든 겨누세요.",
 } as const;
 
 export const statsKo: readonly Stat[] = [

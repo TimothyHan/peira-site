@@ -13,7 +13,7 @@ export interface TermLine {
 export const heroLede = {
   before: "Intent compiler, deterministic runner, failure triage, and evidence ledger in a single CLI. Point ",
   middle: " and ",
-  after: " at any REST API — the config can be one URL.",
+  after: " at any REST API.",
 } as const;
 
 export const hero = {
