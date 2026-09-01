@@ -16,7 +16,7 @@ import { url, type NavItem } from "./site";
 export const heroKo = {
   // The only eyebrow on the Korean side that is prose rather than a literal command, flag,
   // or evidence-log line — so it is the only one that translates.
-  eyebrow: "peira · AI 네이티브 API 테스팅",
+  eyebrow: "peira (피라) · AI 네이티브 API 테스팅",
   // Explicit split: keep-all still breaks after "테스트", giving "당신의 테스트 / 계획이" and
   // splitting the noun phrase. The 어절 rhythm wants 당신의 / 테스트 계획이.
   headlineClaimLines: ["당신의", "테스트 계획이"],

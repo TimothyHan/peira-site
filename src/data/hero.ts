@@ -8,7 +8,7 @@ export interface TermLine {
 }
 
 export const hero = {
-  eyebrow: "peira · ai-native api testing",
+  eyebrow: "peira (peer-uh) · ai-native api testing",
   headlineClaim: "Your test plan",
   headlineTested: "compiles.",
   headlineQuiet: "A deterministic runner executes it.",
