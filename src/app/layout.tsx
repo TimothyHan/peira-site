@@ -40,6 +40,9 @@ export const metadata: Metadata = {
   title: "Peira — AI-native API testing",
   description:
     "Peira is the AI-native API testing tool: you own a markdown test plan, AI compiles it into deterministic tests, and the runner executes with zero LLM — every verdict traces back to a sentence a person wrote.",
+  // Search Console ownership proof for the timothyhan.github.io/peira/ URL-prefix property.
+  // Public by design — it proves control of the page, it is not a secret.
+  verification: { google: "GcF-oGu4m7Vc6JKnNGfXLt08EO9t6g7GRk2MWMsuqNA" },
   alternates: {
     canonical: abs("/"),
     languages: { en: abs("/"), ko: abs("/ko/") },
