@@ -29,10 +29,14 @@ peira init --ci     # …plus a zero-LLM GitHub Actions workflow`,
   {
     num: "02",
     title: "Describe your service — bed.json",
-    body: "The bed config is the only place Peira learns anything about your service. Everything except baseUrl is optional: users are named principals cases refer to as $users.alice (never raw credentials); reset is one HTTP call before each run pointed at your service's own wipe-state endpoint; drain tells the runner how to ask your service whether an async job has settled, so one case's leftovers can never poison the next case's timing; timeouts declares a slow environment's latency envelope (ceilings only — hitting one is an error verdict, never a fail); service tells peira run how to start the app under test — an already-answering baseUrl is reused, a server Peira started is killed (whole process group) when the run ends.",
+    body: "The bed config is the only place Peira learns anything about your service. Everything except baseUrl is optional: users are named principals cases refer to as $users.alice (never raw credentials) — Basic, a login request that returns a token, or a static API key, and the case says $users.staff either way; reset is one HTTP call before each run pointed at your service's own wipe-state endpoint; drain tells the runner how to ask your service whether an async job has settled, so one case's leftovers can never poison the next case's timing; timeouts declares a slow environment's latency envelope (ceilings only — hitting one is an error verdict, never a fail); service tells peira run how to start the app under test — an already-answering baseUrl is reused, a server Peira started is killed (whole process group) when the run ends.",
     code: `{
   "baseUrl": "http://localhost:8080",
-  "users": { "alice": { "username": "alice", "password": "test-pw" } },
+  "users": {
+    "alice": { "username": "alice", "password": "test-pw" },
+    "staff": { "login": { "route": "/api/login", "body": { "email": "staff@example.com", "password": "…" },
+                          "token": "body.token", "send": { "header": "Authorization", "format": "Bearer {{token}}" } } }
+  },
   "reset": { "method": "post", "url": "/test/reset" },
   "drain": { "route": "/orders/status", "idParam": "id",
              "statusPath": "body.state", "terminal": ["SHIPPED", "CANCELLED"] },
@@ -183,7 +187,8 @@ export const reference: readonly RefGroup[] = [
     id: "ref-request",
     title: "A request step",
     entries: [
-      { term: "request", note: "method (get | post | put | delete | patch), route (starts with /), optional query and body. auth takes three forms: \"$users.<alias>\", a literal {username, password} for negative auth tests, or absent for anonymous." },
+      { term: "request", note: "method (get | post | put | delete | patch), route (starts with /), optional query and body. auth takes four forms: \"$users.<alias>\", a literal {username, password} for negative Basic tests, a literal {token} (optional send; defaults to Bearer) for negative token tests, or absent for anonymous." },
+      { term: "followRedirects", note: "Default true. With false the step sees its own 3xx — expect.status 307 and expect.headers.location become assertable, and capture: {next: \"headers.location\"} means something." },
       { term: "capture", note: "alias → dotted response path rooted at status, body, or headers (body.id, headers.location). A path missing from the response fails the case, naming the path." },
       { term: "pollUntil", note: "Re-issues the request until an expect block matches — pinned 100ms interval, timeoutMs ceiling (default 10s or the bed's pollUntilMs). Non-convergence is a fail. The declarative replacement for sleeps, which are refused." },
     ],
@@ -218,7 +223,7 @@ export const reference: readonly RefGroup[] = [
     intro: "The only place Peira learns about your service. Everything except baseUrl is optional.",
     entries: [
       { term: "baseUrl", note: "Where the service answers; --base-url overrides per invocation." },
-      { term: "users", note: "Named principals for basic auth — cases say $users.alice, never credentials." },
+      { term: "users", note: "Named principals — cases say $users.alice, never credentials. Exactly one shape per alias: Basic {username, password}; login {login: {method?, route, body?, token, send}} — logs in once per run on first use (once even under --parallel), captures the token at a path like body.token, attaches it per send; or static {token, send} for API keys. send is {header, format containing {{token}}} or {cookie}. A refused login makes every case on that principal an error, never a fail. Tokens and passwords are scrubbed from the evidence log by value." },
       { term: "reset", note: "{url, method?} — one wipe-state call before each run." },
       { term: "drain", note: "{route, idParam, statusPath, terminal[]} — how to ask whether an async job settled; powers teardown.drain." },
       { term: "timeouts", note: "Latency-envelope ceilings {requestMs?, pollUntilMs?, drainMs?, stepMs?}. Hitting one is an error, never a fail; the poll interval stays pinned for determinism." },

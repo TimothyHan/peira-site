@@ -335,10 +335,14 @@ peira init --ci     # …여기에 LLM을 쓰지 않는 GitHub Actions 워크플
   {
     num: "02",
     title: "서비스를 서술합니다 — bed.json",
-    body: "베드 설정은 Peira가 당신의 서비스에 대해 배우는 유일한 곳입니다. baseUrl을 제외하면 모두 선택 사항입니다: users는 케이스가 $users.alice로 참조하는 이름 붙은 주체입니다(자격 증명은 케이스에 들어가지 않습니다); reset은 매 실행 전에 당신의 서비스가 가진 상태 초기화 엔드포인트를 한 번 호출합니다; drain은 비동기 작업이 끝났는지 묻는 방법을 러너에게 알려 주어, 한 케이스의 잔여물이 다음 케이스의 타이밍을 오염시키지 못하게 합니다; timeouts는 느린 환경의 지연 허용치를 선언합니다(상한일 뿐이며, 걸리면 fail이 아니라 error 판정입니다); service는 테스트 대상 앱을 peira run이 어떻게 띄울지 알려 줍니다 — 이미 응답 중인 baseUrl은 그대로 재사용하고, Peira가 띄운 서버는 실행이 끝날 때 프로세스 그룹째 정리합니다.",
+    body: "베드 설정은 Peira가 당신의 서비스에 대해 배우는 유일한 곳입니다. baseUrl을 제외하면 모두 선택 사항입니다: users는 케이스가 $users.alice로 참조하는 이름 붙은 주체입니다(자격 증명은 케이스에 들어가지 않습니다) — Basic 인증, 토큰을 돌려주는 로그인 요청, 또는 고정 API 키 중 하나이며, 어느 쪽이든 케이스는 $users.staff라고만 씁니다; reset은 매 실행 전에 당신의 서비스가 가진 상태 초기화 엔드포인트를 한 번 호출합니다; drain은 비동기 작업이 끝났는지 묻는 방법을 러너에게 알려 주어, 한 케이스의 잔여물이 다음 케이스의 타이밍을 오염시키지 못하게 합니다; timeouts는 느린 환경의 지연 허용치를 선언합니다(상한일 뿐이며, 걸리면 fail이 아니라 error 판정입니다); service는 테스트 대상 앱을 peira run이 어떻게 띄울지 알려 줍니다 — 이미 응답 중인 baseUrl은 그대로 재사용하고, Peira가 띄운 서버는 실행이 끝날 때 프로세스 그룹째 정리합니다.",
     code: `{
   "baseUrl": "http://localhost:8080",
-  "users": { "alice": { "username": "alice", "password": "test-pw" } },
+  "users": {
+    "alice": { "username": "alice", "password": "test-pw" },
+    "staff": { "login": { "route": "/api/login", "body": { "email": "staff@example.com", "password": "…" },
+                          "token": "body.token", "send": { "header": "Authorization", "format": "Bearer {{token}}" } } }
+  },
   "reset": { "method": "post", "url": "/test/reset" },
   "drain": { "route": "/orders/status", "idParam": "id",
              "statusPath": "body.state", "terminal": ["SHIPPED", "CANCELLED"] },
@@ -435,7 +439,8 @@ export const referenceKo: readonly RefGroup[] = [
     id: "ref-request",
     title: "요청 스텝",
     entries: [
-      { term: "request", note: "method(get | post | put | delete | patch), route(/로 시작), 선택적 query와 body. auth는 세 가지 형태입니다: \"$users.<alias>\"(베드 주체), 부정 인증 테스트를 위한 리터럴 {username, password}, 또는 익명을 뜻하는 생략." },
+      { term: "request", note: "method(get | post | put | delete | patch), route(/로 시작), 선택적 query와 body. auth는 네 가지 형태입니다: \"$users.<alias>\"(베드 주체), 부정 Basic 인증 테스트를 위한 리터럴 {username, password}, 부정 토큰 테스트를 위한 리터럴 {token}(send는 선택, 기본은 Bearer), 또는 익명을 뜻하는 생략." },
+      { term: "followRedirects", note: "기본값 true. false이면 스텝이 자신의 3xx를 직접 봅니다 — expect.status 307과 expect.headers.location을 단정할 수 있고, capture: {next: \"headers.location\"}이 의미를 갖습니다." },
       { term: "capture", note: "별칭 → status, body, headers를 루트로 하는 점 표기 응답 경로(body.id, headers.location). 응답에 없는 경로는 그 경로를 지목하며 케이스를 실패시킵니다." },
       { term: "pollUntil", note: "expect 블록이 일치할 때까지 요청을 다시 보냅니다 — 고정된 100ms 간격, timeoutMs 상한(기본 10초 또는 베드의 pollUntilMs). 수렴하지 않으면 fail입니다. 거부되는 sleep을 대신하는 선언적 수단입니다." },
     ],
@@ -470,7 +475,7 @@ export const referenceKo: readonly RefGroup[] = [
     intro: "Peira가 당신의 서비스에 대해 배우는 유일한 곳입니다. baseUrl 외에는 모두 선택 사항입니다.",
     entries: [
       { term: "baseUrl", note: "서비스가 응답하는 주소이며, 호출마다 --base-url로 덮어쓸 수 있습니다." },
-      { term: "users", note: "기본 인증을 위한 이름 붙은 주체 — 케이스는 $users.alice라고만 쓰고 자격 증명을 담지 않습니다." },
+      { term: "users", note: "이름 붙은 주체 — 케이스는 $users.alice라고만 쓰고 자격 증명을 담지 않습니다. 별칭 하나에 정확히 한 형태: Basic {username, password}; 로그인 {login: {method?, route, body?, token, send}} — 처음 쓰일 때 실행당 한 번 로그인하고(--parallel에서도 한 번), body.token 같은 경로에서 토큰을 캡처해 send대로 붙입니다; 또는 API 키를 위한 고정 {token, send}. send는 {header, {{token}}을 포함한 format} 또는 {cookie}입니다. 거부된 로그인은 그 주체를 쓰는 모든 케이스를 fail이 아닌 error로 만듭니다. 토큰과 비밀번호는 값 기준으로 증거 로그에서 지워집니다." },
       { term: "reset", note: "{url, method?} — 매 실행 전 상태 초기화 호출 한 번." },
       { term: "drain", note: "{route, idParam, statusPath, terminal[]} — 비동기 작업이 끝났는지 묻는 방법이며, teardown.drain의 동력입니다." },
       { term: "timeouts", note: "지연 허용 상한 {requestMs?, pollUntilMs?, drainMs?, stepMs?}. 걸리면 fail이 아니라 error이며, 폴링 간격은 결정성을 위해 고정입니다." },
