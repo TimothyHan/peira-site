@@ -13,7 +13,7 @@ export function LoopSection({ locale = "en" }: { locale?: Locale }) {
   const ta = locale === "ko" ? tallyKo : tally;
   const rows = locale === "ko" ? paradigmKo : paradigm;
   return (
-    <section id="loop" className="bg-background py-20 md:py-28 lg:py-32">
+    <section id="loop" className="bg-muted/30 py-20 md:py-28 lg:py-32">
       <div className="container mx-auto max-w-6xl px-4">
         <ScrollAnimate>
           <p className="eyebrow">{t.eyebrow}</p>

@@ -23,8 +23,8 @@ export interface NavItem {
 
 export const nav: NavItem[] = [
   { label: "How it works", href: url("/#loop") },
-  { label: "Metrics", href: url("/#measured") },
   { label: "Evidence", href: url("/#evidence") },
+  { label: "Metrics", href: url("/#measured") },
   { label: "Docs", href: url("/docs") },
   { label: "GitHub", href: "https://github.com/TimothyHan/peira", external: true },
 ];

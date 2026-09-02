@@ -10,10 +10,10 @@ export default function KoHomePage() {
   return (
     <>
       <HeroSection locale="ko" />
-      <ProofStripSection locale="ko" />
       <LoopSection locale="ko" />
       <FeaturesSection locale="ko" />
       <LedgerSection locale="ko" />
+      <ProofStripSection locale="ko" />
       <CtaCloseSection locale="ko" />
     </>
   );

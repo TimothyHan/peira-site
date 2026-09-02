@@ -11,7 +11,7 @@ export function CtaCloseSection({ locale = "en" }: { locale?: Locale }) {
   const t = sections[locale].cta;
   const h = locale === "ko" ? heroKo : hero;
   return (
-    <section className="bg-muted/30 py-20 md:py-28 lg:py-32">
+    <section className="bg-background py-20 md:py-28 lg:py-32">
       <div className="container mx-auto max-w-3xl px-4 text-center">
         <ScrollAnimate>
           <p className="eyebrow">{t.eyebrow}</p>

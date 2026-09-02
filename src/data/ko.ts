@@ -302,8 +302,8 @@ export const footerBlurbKo =
 
 export const navKo: readonly NavItem[] = [
   { label: "동작 원리", href: url("/ko/#loop") },
-  { label: "지표", href: url("/ko/#measured") },
   { label: "증거", href: url("/ko/#evidence") },
+  { label: "지표", href: url("/ko/#measured") },
   { label: "문서", href: url("/ko/docs") },
   { label: "GitHub", href: "https://github.com/TimothyHan/peira", external: true },
 ];
