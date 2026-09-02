@@ -3,6 +3,7 @@ import { Anton, Geist, Geist_Mono, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SITE_URL, abs } from "@/data/site";
 
 const heading = Anton({
   variable: "--font-heading",
@@ -35,9 +36,30 @@ const bodyKr = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Peira — AI-native API testing",
   description:
     "Peira is the AI-native API testing tool: you own a markdown test plan, AI compiles it into deterministic tests, and the runner executes with zero LLM — every verdict traces back to a sentence a person wrote.",
+  alternates: {
+    canonical: abs("/"),
+    languages: { en: abs("/"), ko: abs("/ko/") },
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Peira",
+    url: abs("/"),
+    title: "Peira — AI-native API testing",
+    description:
+      "Peira is the AI-native API testing tool: you own a markdown test plan, AI compiles it into deterministic tests, and the runner executes with zero LLM — every verdict traces back to a sentence a person wrote.",
+    locale: "en_US",
+    alternateLocale: ["ko_KR"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Peira — AI-native API testing",
+    description:
+      "Peira is the AI-native API testing tool: you own a markdown test plan, AI compiles it into deterministic tests, and the runner executes with zero LLM — every verdict traces back to a sentence a person wrote.",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

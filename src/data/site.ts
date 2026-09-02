@@ -1,10 +1,16 @@
 // Site-wide data: nav, links, install command. /site-build-nav extends this.
 
 // The static export is served from a subpath (basePath in next.config.ts). Next rewrites
-// <Link> and metadata automatically, but NOT raw href/src strings — so every internal link
-// and asset goes through this helper. Keep it in sync with next.config.ts's basePath.
+// <Link> automatically, but NOT raw href/src strings — so every internal link and asset goes
+// through url(). Keep it in sync with next.config.ts's basePath.
 export const BASE_PATH = "/peira";
 export const url = (path: string) => `${BASE_PATH}${path}`;
+
+// basePath is NOT applied to metadata. Canonical and hreflang written as "/docs/" resolved to
+// timothyhan.github.io/docs/ — a 404 — which told Google the real page was a duplicate of a
+// page that does not exist. Every metadata URL is absolute, built from here.
+export const SITE_URL = "https://timothyhan.github.io/peira";
+export const abs = (path: string) => `${SITE_URL}${path}`;
 export const site = {
   name: "Peira",
   tagline: "The AI-native API testing tool",
