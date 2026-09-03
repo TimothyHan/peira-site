@@ -40,7 +40,7 @@ const EN = {
   agentsInstructionsLede: "peira init scaffolds this as AGENTS.md — the cross-tool convention Claude, Cursor, and Copilot-style agents read, with a CLAUDE.md import for Claude Code — and the workflow above is what you get:",
   agentsGuaranteesTitle: "Why this is safe to hand to an agent",
   cliTitle: "CLI reference",
-  cliLede: "Eleven commands. Only compile, triage, and adopt ever touch a model — on your own session, never in CI.",
+  cliLede: "Twelve commands. Only compile, triage, and adopt ever touch a model — on your own session, never in CI.",
   cliFooter: "full flag glossary: peira help",
   anatomyTitle: "Anatomy of a case",
   anatomyLede: "A case is JSON: optional setup steps, one test step, optional teardown. Five primitives cover what hand-written suites need — a real legacy suite re-expressed 27/27 specs with zero escape hatches.",

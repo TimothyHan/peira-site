@@ -61,7 +61,7 @@ export const statsKo: readonly Stat[] = [
     detail: "미리 심어 둔 33개 동작 변화에 대한 bug/drift 판정; 스키마 거부와 인젝션은 0건",
   },
   {
-    value: "282",
+    value: "297",
     label: "도구 자체의 테스트",
     detail: "실제로 배포되는 컴파일 산출물을 대상으로 실행 — 엄격한 TypeScript, CI는 Linux와 Windows",
   },
@@ -418,6 +418,7 @@ export const cliCommandsKo: readonly CliCommand[] = [
   { name: "render", synopsis: "peira render [casesDir] [--evidence <run.jsonl>] [--format md|html]", description: "단방향으로 읽을 수 있는 문서: Given/When/Then 마크다운, 또는 실패 시 관찰된 교환까지 담은 자체 완결형 HTML 실행 리포트." },
   { name: "adopt", synopsis: "peira adopt <messy.md> --out <intent/name.md>", description: "일회성 작성 보조: 임의의 문서를 태그가 붙은 인텐트로 재구조화하고 내용 보존 리포트를 냅니다. 검토도 소유도 당신의 몫입니다." },
   { name: "stamp", synopsis: "peira stamp [casesDir] --intent <dir> [--check]", description: "모델 없이 손으로 쓴 케이스를 인텐트에 묶습니다: 살아 있는 섹션 텍스트로부터 from.hash를 채우거나 갱신합니다. from.intent는 당신의 것이고, from.hash는 결코 아닙니다. --check는 바뀔 케이스가 하나라도 있으면 1로 종료합니다 — 계보를 위한 LLM 없는 CI 게이트입니다." },
+  { name: "reference", synopsis: "peira reference", description: "설치된 버전의 전체 어휘 — 모든 속성에 설명이 붙은 케이스·베드 스키마, 매처, 보간, 주체, 응답, 판정, CLI — 를 스키마 자체에서 생성한 마크다운으로 출력합니다. 에이전트가 dist/ 대신 읽는 것이며, AGENTS.md 스캐폴드가 여기를 가리킵니다." },
 ] as const;
 
 export const referenceLedeKo =
@@ -456,7 +457,8 @@ export const referenceKo: readonly RefGroup[] = [
       { term: "body", note: "JSON 본문에 대한 부분 일치." },
       { term: "bodySchema", note: "본문 전체가 만족해야 하는 JSON 스키마 부분집합(type, required, properties, additionalProperties, enum, items, pattern, anyOf) — \"모든 원소가 X 형태\"류의 주장에 씁니다." },
       { term: "{\"$any\": …}", note: "매처: 존재하며 \"string\" | \"number\" | \"boolean\" 타입일 것." },
-      { term: "{\"$contains\": …}", note: "매처: 해당 부분 문자열을 포함하는 문자열 — content-type을 위한 매처입니다." },
+      { term: "{\"$contains\": …}", note: "매처: 부분 문자열을 포함하는 문자열 — 또는 목록의 모든 부분 문자열을 포함(all of; 빠진 것마다 별도 diff). content-type 매처이자, 텍스트 본문의 오라클입니다: HTML 등 JSON이 아닌 응답은 문자열로 도착합니다." },
+      { term: "{\"$notContains\": …}", note: "매처: 나열한 부분 문자열을 하나도 포함하지 않는 문자열 — \"X가 새면 안 된다\". 오픈 리다이렉트 가드: location: {$notContains: \"evil.example\"}. 긍정형만으로는 https://evil.example/?back=/hub에 속습니다." },
       { term: "{\"$absent\": true}", note: "매처: 키 또는 헤더가 존재하지 않아야 합니다. null과는 다르며, 본문 전체에는 쓸 수 없습니다. 대표적인 쓰임은 거부된 권한을 생략으로 표현하는 접근 맵입니다 — 편집자로서 GET /api/access → {\"tenants\": {\"create\": {\"$absent\": true}}}. 허용이 아니라 생략을 단정하세요: 이 사용자가 가져서는 안 되는 것이 무엇인지를 묻는 질문이며, 긍정형 검사는 결코 던지지 않는 질문입니다." },
       { term: "null", note: "매처: 존재하며 정확히 null. 매처는 단독으로 쓰이며 body, pollUntil.until, 헤더 값에서 동작합니다. 사용자 정의 매처는 설계상 없습니다 — 어휘는 개정을 통해 자랍니다." },
     ],
@@ -519,7 +521,7 @@ export const docsPageKo = {
     "peira init이 이것을 AGENTS.md로 만들어 줍니다 — Claude, Cursor, Copilot 계열 에이전트가 함께 읽는 크로스툴 규약이며, Claude Code를 위한 CLAUDE.md 임포트가 딸려 옵니다 — 그러면 위 워크플로가 그대로 동작합니다:",
   agentsGuaranteesTitle: "에이전트에게 맡겨도 안전한 이유",
   cliTitle: "CLI 레퍼런스",
-  cliLede: "명령 열한 개. 모델을 건드리는 것은 compile, triage, adopt뿐이며 — 당신의 세션에서 돌고, CI에서는 결코 돌지 않습니다.",
+  cliLede: "명령 열두 개. 모델을 건드리는 것은 compile, triage, adopt뿐이며 — 당신의 세션에서 돌고, CI에서는 결코 돌지 않습니다.",
   cliFooter: "전체 플래그 목록: peira help",
   anatomyTitle: "케이스 해부",
   anatomyLede:

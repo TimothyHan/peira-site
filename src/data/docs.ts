@@ -118,6 +118,7 @@ export const cliCommands: readonly CliCommand[] = [
   { name: "render", synopsis: "peira render [casesDir] [--evidence <run.jsonl>] [--format md|html]", description: "One-way readable documentation: Given/When/Then markdown, or a self-contained visual HTML run report with observed exchanges on failures." },
   { name: "adopt", synopsis: "peira adopt <messy.md> --out <intent/name.md>", description: "One-time authoring assist: restructures an arbitrary document into tagged intent, with a content-preservation report. You review; you own the result." },
   { name: "stamp", synopsis: "peira stamp [casesDir] --intent <dir> [--check]", description: "Bind hand-written cases to intent without a model: fills or refreshes from.hash from the live section text. from.intent is yours; from.hash never is. --check exits 1 if any case would change — the zero-LLM CI gate for lineage." },
+  { name: "reference", synopsis: "peira reference", description: "The installed version's complete vocabulary — case and bed schemas with every property described, the matchers, interpolation, principals, responses, verdicts, the CLI — as markdown, generated from the schemas themselves. What an agent reads instead of dist/; the AGENTS.md scaffold points here." },
 ] as const;
 
 export interface AnatomyNote {
@@ -148,7 +149,7 @@ export const caseAnatomy = {
     { key: "$users.alice", note: "A bed principal by name. Cases never contain credentials; the bed maps names to auth per environment." },
     { key: "{{unique.nonce}}", note: "Seed-derived discriminator: hash(seed, case id, key). Same seed → same value; no fixture files." },
     { key: "capture", note: "Maps an alias to a response path (body.id). Later steps reference it as $orderId (whole value) or {{orderId}} inside strings." },
-    { key: "expect", note: "Subset matching, Jest toMatchObject parity, on status, headers (case-insensitive — {\"content-type\": {\"$contains\": \"application/json\"}}), and body. Matchers: {\"$any\": \"string\" | \"number\" | \"boolean\"}, {\"$contains\": \"<substring>\"}, {\"$absent\": true}, and literal null. Add pollUntil for eventual consistency — never wall-clock sleeps." },
+    { key: "expect", note: "Subset matching, Jest toMatchObject parity, on status, headers (case-insensitive — {\"content-type\": {\"$contains\": \"application/json\"}}), and body. Matchers: {\"$any\": \"string\" | \"number\" | \"boolean\"}, {\"$contains\": \"s\" | [\"a\", \"b\"]}, {\"$notContains\": …}, {\"$absent\": true}, and literal null. Add pollUntil for eventual consistency — never wall-clock sleeps." },
     { key: "teardown.drain", note: "Declares that this case must clean up; the bed's drain probe knows how. The runner polls every captured job to a terminal state before the next case runs." },
   ] as readonly AnatomyNote[],
 } as const;
@@ -204,7 +205,8 @@ export const reference: readonly RefGroup[] = [
       { term: "body", note: "Subset match against the JSON body." },
       { term: "bodySchema", note: "A JSON-Schema subset the whole body must satisfy (type, required, properties, additionalProperties, enum, items, pattern, anyOf) — for \"every element has shape X\" claims." },
       { term: "{\"$any\": …}", note: "Matcher: present, of type \"string\" | \"number\" | \"boolean\"." },
-      { term: "{\"$contains\": …}", note: "Matcher: a string containing the substring — the content-type matcher." },
+      { term: "{\"$contains\": …}", note: "Matcher: a string containing the substring — or every substring in a list (all of; each missing one is its own diff). The content-type matcher, and the oracle for text bodies: HTML and other non-JSON responses arrive as a string." },
+      { term: "{\"$notContains\": …}", note: "Matcher: a string containing none of the listed substrings — \"must not leak X\". The open-redirect guard: location: {$notContains: \"evil.example\"}. The positive form alone is fooled by https://evil.example/?back=/hub." },
       { term: "{\"$absent\": true}", note: "Matcher: the key or header must not exist. Distinct from null; refused as the whole body. The motivating shape: an access map that omits denied permissions — GET /api/access as an editor → {\"tenants\": {\"create\": {\"$absent\": true}}}. Assert the omissions, not the grants: it asks what a user holds that they shouldn't, a question positive checks never pose." },
       { term: "null", note: "Matcher: present and exactly null. Matchers stand alone and work in body, pollUntil.until, and header values. No custom matchers, by design — the vocabulary grows by amendment." },
     ],
@@ -295,18 +297,40 @@ export const agentLoop: readonly AgentExchange[] = [
 
 export const agentClaudeMd = `# API testing with Peira
 
-- Tests are compiled from intent/*.md. NEVER edit cases/*.json by hand —
-  edit the intent section, then recompile exactly that section:
+Peira compiles a markdown test plan (intent/*.md) into JSON cases and runs them with
+no model in the loop. Everything the tool can say is in one place — read it before you
+write a case, and again after the tool is upgraded:
+
+    peira reference
+
+## The loop
+
+- Intent is the source of truth. To change a test, edit its intent section, then
+  recompile exactly that section:
     peira compile intent --out cases --bed bed.json --section <id>
-- Run and keep the evidence (note the printed seed for exact replays):
+- A case written by hand is fine; bind it to its section without a model:
+    peira stamp cases --intent intent        (--check in CI: exit 1 if anything is unstamped or stale)
+- Run and keep the evidence (the printed seed replays any failure exactly):
     peira run cases --bed bed.json --evidence run.jsonl
-- On failures, triage and PRESENT the proposals — adjudication belongs
-  to the human, never to you:
+- On failures, triage and PRESENT the proposals — adjudication belongs to the
+  human, never to you:
     peira triage --evidence run.jsonl --intent intent
-- When the human wants to see results, render the visual report:
+- When the human wants to see results:
     peira render cases --intent intent --evidence run.jsonl --format html --out report.html
 - After adjudication, record the run so intent sections earn trust:
-    peira evidence --evidence run.jsonl --triage run-triage.json --intent intent`;
+    peira evidence --evidence run.jsonl --triage run-triage.json --intent intent
+
+## Rules the gate enforces (validate says so, with the fix in the message)
+
+- Never edit a compiled case to make a run green; fix the service or propose an intent change.
+- from.intent is yours; from.hash never is — compile stamps it, \`peira stamp\` fills it.
+- Inside a string use {{alias}}; a bare $alias is only the whole value.
+- No wall-clock sleeps. Eventual consistency is pollUntil; cleanup is teardown {"drain": true}.
+- Matchers stand alone: $any, $contains (string or all-of list), $notContains, $absent, null.
+  Negative claims are where the bugs are — assert what a user must NOT see or hold.
+- Cases never contain credentials: auth is "$users.<alias>"; the bed defines the alias.
+- A red run is pass | fail | error and the kinds are never conflated: error means the
+  environment failed before the claim was judged — say so, do not report it as a bug.`;
 
 export const agentGuarantees: readonly { title: string; body: string }[] = [
   {
