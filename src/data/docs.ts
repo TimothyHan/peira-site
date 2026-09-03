@@ -71,7 +71,7 @@ peira compile intent --dry-run    # report only — nothing written`,
   {
     num: "05",
     title: "Run locally — and close the loop",
-    body: "Verdicts are pass | fail | error — assertion failures and infrastructure failures are never conflated. The seed is always printed: any failure reproduces exactly with the same seed against the same service state. First runs usually surface both real bugs and stale intent — that's the point.",
+    body: "Verdicts are pass | fail | error — assertion failures and infrastructure failures are never conflated. The seed is always printed: any failure reproduces exactly with the same seed against the same service state. First runs usually surface both real bugs and stale intent — that's the point. One caveat: a fixed seed against a service you never reset collides with its own previous run's data, so cases that create state need a reset or a fresh seed — CI already uses the run id; locally, vary it too.",
     code: `peira run cases --bed bed.json --seed 42 --evidence run.jsonl
 peira run cases --bed bed.json --seed 42 --only CASE-order-cancel-001   # re-run the one failing case
 peira run cases --bed bed.json --parallel 8   # worker pool; verdicts + evidence identical to serial
@@ -117,6 +117,7 @@ export const cliCommands: readonly CliCommand[] = [
   { name: "trust", synopsis: "peira trust", description: "The ledger standings — per intent section: applied, contradicted, runs, last applied." },
   { name: "render", synopsis: "peira render [casesDir] [--evidence <run.jsonl>] [--format md|html]", description: "One-way readable documentation: Given/When/Then markdown, or a self-contained visual HTML run report with observed exchanges on failures." },
   { name: "adopt", synopsis: "peira adopt <messy.md> --out <intent/name.md>", description: "One-time authoring assist: restructures an arbitrary document into tagged intent, with a content-preservation report. You review; you own the result." },
+  { name: "stamp", synopsis: "peira stamp [casesDir] --intent <dir> [--check]", description: "Bind hand-written cases to intent without a model: fills or refreshes from.hash from the live section text. from.intent is yours; from.hash never is. --check exits 1 if any case would change — the zero-LLM CI gate for lineage." },
 ] as const;
 
 export interface AnatomyNote {
@@ -147,7 +148,7 @@ export const caseAnatomy = {
     { key: "$users.alice", note: "A bed principal by name. Cases never contain credentials; the bed maps names to auth per environment." },
     { key: "{{unique.nonce}}", note: "Seed-derived discriminator: hash(seed, case id, key). Same seed → same value; no fixture files." },
     { key: "capture", note: "Maps an alias to a response path (body.id). Later steps reference it as $orderId (whole value) or {{orderId}} inside strings." },
-    { key: "expect", note: "Subset matching, Jest toMatchObject parity, on status, headers (case-insensitive — {\"content-type\": {\"$contains\": \"application/json\"}}), and body. Matchers: {\"$any\": \"string\" | \"number\" | \"boolean\"}, {\"$contains\": \"<substring>\"}, and literal null. Add pollUntil for eventual consistency — never wall-clock sleeps." },
+    { key: "expect", note: "Subset matching, Jest toMatchObject parity, on status, headers (case-insensitive — {\"content-type\": {\"$contains\": \"application/json\"}}), and body. Matchers: {\"$any\": \"string\" | \"number\" | \"boolean\"}, {\"$contains\": \"<substring>\"}, {\"$absent\": true}, and literal null. Add pollUntil for eventual consistency — never wall-clock sleeps." },
     { key: "teardown.drain", note: "Declares that this case must clean up; the bed's drain probe knows how. The runner polls every captured job to a terminal state before the next case runs." },
   ] as readonly AnatomyNote[],
 } as const;
@@ -204,6 +205,7 @@ export const reference: readonly RefGroup[] = [
       { term: "bodySchema", note: "A JSON-Schema subset the whole body must satisfy (type, required, properties, additionalProperties, enum, items, pattern, anyOf) — for \"every element has shape X\" claims." },
       { term: "{\"$any\": …}", note: "Matcher: present, of type \"string\" | \"number\" | \"boolean\"." },
       { term: "{\"$contains\": …}", note: "Matcher: a string containing the substring — the content-type matcher." },
+      { term: "{\"$absent\": true}", note: "Matcher: the key or header must not exist — for APIs that express denial by omission. Distinct from null; refused as the whole body." },
       { term: "null", note: "Matcher: present and exactly null. Matchers stand alone and work in body, pollUntil.until, and header values. No custom matchers, by design — the vocabulary grows by amendment." },
     ],
   },

@@ -61,7 +61,7 @@ export const statsKo: readonly Stat[] = [
     detail: "미리 심어 둔 33개 동작 변화에 대한 bug/drift 판정; 스키마 거부와 인젝션은 0건",
   },
   {
-    value: "258",
+    value: "282",
     label: "도구 자체의 테스트",
     detail: "실제로 배포되는 컴파일 산출물을 대상으로 실행 — 엄격한 TypeScript, CI는 Linux와 Windows",
   },
@@ -377,7 +377,7 @@ peira compile intent --dry-run    # 리포트만, 아무것도 쓰지 않음`,
   {
     num: "05",
     title: "로컬 실행 — 그리고 루프 닫기",
-    body: "판정은 pass | fail | error입니다 — 단정 실패와 인프라 실패를 결코 뒤섞지 않습니다. 시드는 항상 출력됩니다: 어떤 실패든 같은 시드와 같은 서비스 상태에서 그대로 재현됩니다. 첫 실행은 대개 진짜 버그와 낡은 인텐트를 동시에 드러냅니다 — 그것이 요점입니다.",
+    body: "판정은 pass | fail | error입니다 — 단정 실패와 인프라 실패를 결코 뒤섞지 않습니다. 시드는 항상 출력됩니다: 어떤 실패든 같은 시드와 같은 서비스 상태에서 그대로 재현됩니다. 첫 실행은 대개 진짜 버그와 낡은 인텐트를 동시에 드러냅니다 — 그것이 요점입니다. 한 가지 주의: 초기화하지 않는 서비스에 같은 시드로 실행하면 이전 실행이 만든 데이터와 충돌하므로, 상태를 만드는 케이스에는 reset이나 새 시드가 필요합니다 — CI는 이미 run id를 쓰고 있으니, 로컬에서도 시드를 바꾸세요.",
     code: `peira run cases --bed bed.json --seed 42 --evidence run.jsonl
 peira run cases --bed bed.json --seed 42 --only CASE-order-cancel-001   # 실패한 케이스 하나만 재실행
 peira run cases --bed bed.json --parallel 8   # 워커 풀; 판정과 증거 순서는 순차 실행과 동일
@@ -417,6 +417,7 @@ export const cliCommandsKo: readonly CliCommand[] = [
   { name: "trust", synopsis: "peira trust", description: "원장 현황 — 인텐트 섹션별 applied, contradicted, 실행 횟수, 마지막 applied 시점." },
   { name: "render", synopsis: "peira render [casesDir] [--evidence <run.jsonl>] [--format md|html]", description: "단방향으로 읽을 수 있는 문서: Given/When/Then 마크다운, 또는 실패 시 관찰된 교환까지 담은 자체 완결형 HTML 실행 리포트." },
   { name: "adopt", synopsis: "peira adopt <messy.md> --out <intent/name.md>", description: "일회성 작성 보조: 임의의 문서를 태그가 붙은 인텐트로 재구조화하고 내용 보존 리포트를 냅니다. 검토도 소유도 당신의 몫입니다." },
+  { name: "stamp", synopsis: "peira stamp [casesDir] --intent <dir> [--check]", description: "모델 없이 손으로 쓴 케이스를 인텐트에 묶습니다: 살아 있는 섹션 텍스트로부터 from.hash를 채우거나 갱신합니다. from.intent는 당신의 것이고, from.hash는 결코 아닙니다. --check는 바뀔 케이스가 하나라도 있으면 1로 종료합니다 — 계보를 위한 LLM 없는 CI 게이트입니다." },
 ] as const;
 
 export const referenceLedeKo =
@@ -456,6 +457,7 @@ export const referenceKo: readonly RefGroup[] = [
       { term: "bodySchema", note: "본문 전체가 만족해야 하는 JSON 스키마 부분집합(type, required, properties, additionalProperties, enum, items, pattern, anyOf) — \"모든 원소가 X 형태\"류의 주장에 씁니다." },
       { term: "{\"$any\": …}", note: "매처: 존재하며 \"string\" | \"number\" | \"boolean\" 타입일 것." },
       { term: "{\"$contains\": …}", note: "매처: 해당 부분 문자열을 포함하는 문자열 — content-type을 위한 매처입니다." },
+      { term: "{\"$absent\": true}", note: "매처: 키 또는 헤더가 존재하지 않아야 합니다 — 거부를 생략으로 표현하는 API를 위한 것입니다. null과는 다르며, 본문 전체에는 쓸 수 없습니다." },
       { term: "null", note: "매처: 존재하며 정확히 null. 매처는 단독으로 쓰이며 body, pollUntil.until, 헤더 값에서 동작합니다. 사용자 정의 매처는 설계상 없습니다 — 어휘는 개정을 통해 자랍니다." },
     ],
   },
@@ -517,7 +519,7 @@ export const docsPageKo = {
     "peira init이 이것을 AGENTS.md로 만들어 줍니다 — Claude, Cursor, Copilot 계열 에이전트가 함께 읽는 크로스툴 규약이며, Claude Code를 위한 CLAUDE.md 임포트가 딸려 옵니다 — 그러면 위 워크플로가 그대로 동작합니다:",
   agentsGuaranteesTitle: "에이전트에게 맡겨도 안전한 이유",
   cliTitle: "CLI 레퍼런스",
-  cliLede: "명령 열 개. 모델을 건드리는 것은 compile, triage, adopt뿐이며 — 당신의 세션에서 돌고, CI에서는 결코 돌지 않습니다.",
+  cliLede: "명령 열한 개. 모델을 건드리는 것은 compile, triage, adopt뿐이며 — 당신의 세션에서 돌고, CI에서는 결코 돌지 않습니다.",
   cliFooter: "전체 플래그 목록: peira help",
   anatomyTitle: "케이스 해부",
   anatomyLede:
