@@ -457,7 +457,7 @@ export const referenceKo: readonly RefGroup[] = [
       { term: "bodySchema", note: "본문 전체가 만족해야 하는 JSON 스키마 부분집합(type, required, properties, additionalProperties, enum, items, pattern, anyOf) — \"모든 원소가 X 형태\"류의 주장에 씁니다." },
       { term: "{\"$any\": …}", note: "매처: 존재하며 \"string\" | \"number\" | \"boolean\" 타입일 것." },
       { term: "{\"$contains\": …}", note: "매처: 해당 부분 문자열을 포함하는 문자열 — content-type을 위한 매처입니다." },
-      { term: "{\"$absent\": true}", note: "매처: 키 또는 헤더가 존재하지 않아야 합니다 — 거부를 생략으로 표현하는 API를 위한 것입니다. null과는 다르며, 본문 전체에는 쓸 수 없습니다." },
+      { term: "{\"$absent\": true}", note: "매처: 키 또는 헤더가 존재하지 않아야 합니다. null과는 다르며, 본문 전체에는 쓸 수 없습니다. 대표적인 쓰임은 거부된 권한을 생략으로 표현하는 접근 맵입니다 — 편집자로서 GET /api/access → {\"tenants\": {\"create\": {\"$absent\": true}}}. 허용이 아니라 생략을 단정하세요: 이 사용자가 가져서는 안 되는 것이 무엇인지를 묻는 질문이며, 긍정형 검사는 결코 던지지 않는 질문입니다." },
       { term: "null", note: "매처: 존재하며 정확히 null. 매처는 단독으로 쓰이며 body, pollUntil.until, 헤더 값에서 동작합니다. 사용자 정의 매처는 설계상 없습니다 — 어휘는 개정을 통해 자랍니다." },
     ],
   },

@@ -205,7 +205,7 @@ export const reference: readonly RefGroup[] = [
       { term: "bodySchema", note: "A JSON-Schema subset the whole body must satisfy (type, required, properties, additionalProperties, enum, items, pattern, anyOf) — for \"every element has shape X\" claims." },
       { term: "{\"$any\": …}", note: "Matcher: present, of type \"string\" | \"number\" | \"boolean\"." },
       { term: "{\"$contains\": …}", note: "Matcher: a string containing the substring — the content-type matcher." },
-      { term: "{\"$absent\": true}", note: "Matcher: the key or header must not exist — for APIs that express denial by omission. Distinct from null; refused as the whole body." },
+      { term: "{\"$absent\": true}", note: "Matcher: the key or header must not exist. Distinct from null; refused as the whole body. The motivating shape: an access map that omits denied permissions — GET /api/access as an editor → {\"tenants\": {\"create\": {\"$absent\": true}}}. Assert the omissions, not the grants: it asks what a user holds that they shouldn't, a question positive checks never pose." },
       { term: "null", note: "Matcher: present and exactly null. Matchers stand alone and work in body, pollUntil.until, and header values. No custom matchers, by design — the vocabulary grows by amendment." },
     ],
   },
