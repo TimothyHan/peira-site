@@ -36,7 +36,7 @@ export const stats: readonly Stat[] = [
     detail: "bug-vs-drift across 33 behavior changes planted in advance; zero schema refusals or injections",
   },
   {
-    value: "297",
+    value: "306",
     label: "tests on the tool itself",
     detail: "run against the exact compiled artifact that ships — strict TypeScript, Linux and Windows in CI",
   },

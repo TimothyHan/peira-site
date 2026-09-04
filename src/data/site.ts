@@ -18,7 +18,7 @@ export const site = {
   github: "https://github.com/TimothyHan/peira",
   npm: "https://www.npmjs.com/package/peira",
   license: "MIT",
-  version: "v0.5",
+  version: "v0.6",
 } as const;
 
 export interface NavItem {
