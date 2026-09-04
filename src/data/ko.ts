@@ -12,6 +12,7 @@ import type { WalkStep } from "./walkthrough";
 import type { TriageKind } from "./features";
 import type { CliCommand, DocStep, RefGroup } from "./docs";
 import { url, type NavItem } from "./site";
+import { PEIRA_TEST_COUNT } from "./generated/test-count";
 
 export const heroKo = {
   // The only eyebrow on the Korean side that is prose rather than a literal command, flag,
@@ -61,7 +62,7 @@ export const statsKo: readonly Stat[] = [
     detail: "미리 심어 둔 33개 동작 변화에 대한 bug/drift 판정; 스키마 거부와 인젝션은 0건",
   },
   {
-    value: "306",
+    value: String(PEIRA_TEST_COUNT),
     label: "도구 자체의 테스트",
     detail: "실제로 배포되는 컴파일 산출물을 대상으로 실행 — 엄격한 TypeScript, CI는 Linux와 Windows",
   },

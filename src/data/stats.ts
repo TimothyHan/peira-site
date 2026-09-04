@@ -1,5 +1,7 @@
 // Every number here was earned against the in-repo bed and is recorded in the peira
 // repo's docs/findings/. The bed is a test fixture; the specs it ships with are originals.
+import { PEIRA_TEST_COUNT } from "./generated/test-count";
+
 export interface Stat {
   value: string;
   label: string;
@@ -36,7 +38,8 @@ export const stats: readonly Stat[] = [
     detail: "bug-vs-drift across 33 behavior changes planted in advance; zero schema refusals or injections",
   },
   {
-    value: "306",
+    // generated from a real run of the tool's suite at build time — see scripts/peira-test-count.mjs
+    value: String(PEIRA_TEST_COUNT),
     label: "tests on the tool itself",
     detail: "run against the exact compiled artifact that ships — strict TypeScript, Linux and Windows in CI",
   },

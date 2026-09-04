@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# generated at build time from the tool's real test run (scripts/peira-test-count.mjs)
+/src/data/generated/
+
 # next.js
 /.next/
 /out/
