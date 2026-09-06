@@ -190,7 +190,9 @@ export const reference: readonly RefGroup[] = [
     title: "A request step",
     entries: [
       { term: "request", note: "method (get | post | put | delete | patch), route (starts with /), optional query and body. auth takes four forms: \"$users.<alias>\", a literal {username, password} for negative Basic tests, a literal {token} (optional send; defaults to Bearer) for negative token tests, or absent for anonymous." },
-      { term: "multipart", note: "{fields?, files?: [{field, path, mimetype?, filename?}]} — send multipart/form-data instead of a JSON body (never both). files[].path is relative to the cases directory: an ordinary file in the repo, never inline bytes; validate fails if it is missing or over 256 KB. mimetype is explicit so a wrong-type refusal is a case. The evidence log records names and sizes, never content." },
+      { term: "headers", note: "The case's own request headers — {\"Accept\": \"text/html\", \"Accept-Language\": \"ko\"} — interpolated. Applied lowest: the principal's attachment overrides them (a case cannot override its own Authorization) and the body kind owns content-type. content-length, transfer-encoding, host are refused, and so are Sec-* / Proxy-*, which the HTTP runtime rewrites silently." },
+      { term: "form", note: "{name: value} sent as application/x-www-form-urlencoded — a native form post, the body a browser sends before hydration. Mutually exclusive with body and multipart; password fields are redacted in evidence." },
+      { term: "multipart", note: "{fields?, files?: [{field, path | bytes, mimetype?, filename?}]} — send multipart/form-data instead of a JSON body (never both). files[].path is relative to the cases directory: an ordinary file in the repo, never inline bytes; validate fails if it is missing or over 256 KB. mimetype is explicit so a wrong-type refusal is a case. The evidence log records names and sizes, never content." },
       { term: "followRedirects", note: "Default true. With false the step sees its own 3xx — expect.status 307 and expect.headers.location become assertable, and capture: {next: \"headers.location\"} means something." },
       { term: "capture", note: "alias → dotted response path rooted at status, body, or headers (body.id, headers.location). A path missing from the response fails the case, naming the path." },
       { term: "pollUntil", note: "Re-issues the request until an expect block matches — pinned 100ms interval, timeoutMs ceiling (default 10s or the bed's pollUntilMs). Non-convergence is a fail. The declarative replacement for sleeps, which are refused." },
@@ -204,10 +206,12 @@ export const reference: readonly RefGroup[] = [
       { term: "status", note: "Exact status code." },
       { term: "headers", note: "Response headers by name, case-insensitive (RFC 9110); values are a literal string or a matcher, nothing else. A missing header is a named diff." },
       { term: "body", note: "Subset match against the JSON body." },
+      { term: "oracle", note: "{statusOnly: \"<reason>\"} — a note, not an assertion: this case asserts only the status on purpose (identical 404s so nothing can be inferred). The weak-oracle lint accepts it, render prints it, and it is refused beside a body or headers assertion." },
       { term: "bodySchema", note: "A JSON-Schema subset the whole body must satisfy (type, required, properties, additionalProperties, enum, items, pattern, anyOf) — for \"every element has shape X\" claims." },
       { term: "{\"$any\": …}", note: "Matcher: present, of type \"string\" | \"number\" | \"boolean\"." },
       { term: "{\"$contains\": …}", note: "Matcher: a string containing the substring — or every substring in a list (all of; each missing one is its own diff). The content-type matcher, and the oracle for text bodies: HTML and other non-JSON responses arrive as a string. One trap: server-rendered React separates adjacent text expressions with <!-- -->, so assert text from one expression or a stable attribute, not visible text that spans an interpolation." },
       { term: "{\"$notContains\": …}", note: "Matcher: a string containing none of the listed substrings — \"must not leak X\". The open-redirect guard: location: {$notContains: \"evil.example\"}. The positive form alone is fooled by https://evil.example/?back=/hub." },
+      { term: "{\"$text\": {contains, notContains}}", note: "Matcher: the body as text — tags and comments stripped, whitespace collapsed — must contain all of and none of. Whole body only. Server-rendered React splits text with <!-- -->, so $contains on the raw body misses \"총 2건\"; $text finds it, and it is the one place contains and notContains apply to the same text body." },
       { term: "{\"$absent\": true}", note: "Matcher: the key or header must not exist. Distinct from null; refused as the whole body. The motivating shape: an access map that omits denied permissions — GET /api/access as an editor → {\"tenants\": {\"create\": {\"$absent\": true}}}. Assert the omissions, not the grants: it asks what a user holds that they shouldn't, a question positive checks never pose." },
       { term: "null", note: "Matcher: present and exactly null. Matchers stand alone and work in body, pollUntil.until, and header values. No custom matchers, by design — the vocabulary grows by amendment." },
     ],
@@ -327,7 +331,7 @@ write a case, and again after the tool is upgraded:
 - from.intent is yours; from.hash never is — compile stamps it, \`peira stamp\` fills it.
 - Inside a string use {{alias}}; a bare $alias is only the whole value.
 - No wall-clock sleeps. Eventual consistency is pollUntil; cleanup is teardown {"drain": true}.
-- Matchers stand alone: $any, $contains (string or all-of list), $notContains, $absent, null.
+- Matchers stand alone: $any, $contains (string or all-of list), $notContains, $absent, $text, null.
   Negative claims are where the bugs are — assert what a user must NOT see or hold.
 - Cases never contain credentials: auth is "$users.<alias>"; the bed defines the alias.
 - A red run is pass | fail | error and the kinds are never conflated: error means the
